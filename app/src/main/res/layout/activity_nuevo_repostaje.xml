@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_nuevo_repostaje"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.retaliator.carex.NuevoRepostaje">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_gas_station"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="12dp"
+        android:id="@+id/iconRepostaje" />
+
+    <TextView
+        android:text="REPOSTAJE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iconRepostaje"
+        android:layout_toEndOf="@+id/iconRepostaje"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="13dp"
+        android:id="@+id/tvTituloRepostaje" />
+
+    <TextView
+        android:text="Coche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iconRepostaje"
+        android:layout_toEndOf="@+id/iconRepostaje"
+        android:layout_marginTop="16dp"
+        android:id="@+id/tvCoche" />
+
+    <TextView
+        android:text="Fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCoche"
+        android:layout_alignStart="@+id/tvCoche"
+        android:layout_marginTop="15dp"
+        android:id="@+id/tvFechaRepostaje" />
+
+    <TextView
+        android:text="Importe (€)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvFechaRepostaje"
+        android:layout_alignStart="@+id/tvFechaRepostaje"
+        android:layout_marginTop="19dp"
+        android:id="@+id/tvImporte" />
+
+    <TextView
+        android:text="Precio (€/L)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvImporte"
+        android:layout_alignStart="@+id/tvImporte"
+        android:layout_marginTop="21dp"
+        android:id="@+id/tvPrecio" />
+
+    <TextView
+        android:text="Litros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPrecio"
+        android:layout_alignStart="@+id/tvPrecio"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvLitros" />
+
+    <TextView
+        android:text="Km Totales"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLitros"
+        android:layout_alignStart="@+id/tvLitros"
+        android:layout_marginTop="23dp"
+        android:id="@+id/tvKmTotales" />
+
+    <TextView
+        android:text="Lugar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvKmTotales"
+        android:layout_alignStart="@+id/tvKmTotales"
+        android:layout_marginTop="26dp"
+        android:id="@+id/tvLugar" />
+
+    <Button
+        android:text="Guardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/tmpBtnSave"
+        android:onClick="onBtnGuardar" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="8"
+        android:layout_below="@+id/tvCoche"
+        android:layout_toStartOf="@+id/iconCar"
+        android:gravity="end"
+        android:id="@+id/edtFecha" />
+
+    <EditText
+        android:id="@+id/edtImporte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvImporte"
+        android:layout_alignBottom="@+id/tvImporte"
+        android:layout_alignEnd="@+id/edtFecha"
+        android:ems="8"
+        android:gravity="end"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/edtPrecio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvPrecio"
+        android:layout_alignBottom="@+id/tvPrecio"
+        android:layout_alignEnd="@+id/edtFecha"
+        android:ems="8"
+        android:gravity="end"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/edtLitros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvLitros"
+        android:layout_alignBottom="@+id/tvLitros"
+        android:layout_alignEnd="@+id/edtFecha"
+        android:ems="8"
+        android:gravity="end"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/edtKmTotales"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvKmTotales"
+        android:layout_alignBottom="@+id/tvKmTotales"
+        android:layout_alignEnd="@+id/edtFecha"
+        android:ems="8"
+        android:gravity="end"
+        android:inputType="number" />
+
+
+    <EditText
+        android:id="@+id/edtLugar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvLugar"
+        android:layout_alignBottom="@+id/tvLugar"
+        android:layout_alignEnd="@+id/edtFecha"
+        android:ems="8"
+        android:gravity="end"
+        android:inputType="textCapWords" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="8"
+        android:id="@+id/carSpinner"
+        android:layout_above="@+id/edtFecha"
+        android:layout_alignStart="@+id/edtFecha"
+        android:gravity="end"
+        android:layout_toEndOf="@+id/tvCoche" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_car_hatchback"
+        android:layout_above="@+id/edtFecha"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/iconCar" />
+
+</RelativeLayout>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">GastaCar</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="texto_tab1">Repostajes</string>
+    <string name="texto_tab2">Mantenimientos</string>
+
+    <string name="menu_guardar">Guardar</string>
+    <string name="menu_editar">Editar</string>
+
+    <string name="nombreCoche">Nombre</string>
+
+    <string name="Advertencia1">Primero debe crear un coche</string>
+</resources>

@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.retaliator.carex.MainActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_export"
+        android:orderInCategory="100"
+        android:title="Exportar"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/chartIcon"
+        android:icon="@drawable/ic_chart_bar"
+        android:title="Graficos"
+        appcompat:showAsAction="always"/>
+
+    <item android:id="@+id/searchIcon"
+        android:icon="@drawable/ic_magnify"
+        android:title="Buscar"
+        appcompat:showAsAction="always"/>
+
+</menu>

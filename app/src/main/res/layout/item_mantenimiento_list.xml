@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="?attr/listPreferredItemHeight">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="12dp"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:text="Fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imageView"
+        android:layout_alignParentTop="true"
+        android:id="@+id/tv_fecha"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:text="Km/Parciales"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imageView"
+        android:layout_below="@id/tv_fecha"
+        android:id="@+id/tv_km"
+        android:layout_alignLeft="@id/tv_fecha"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:text="Importe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/tv_importe"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:text="Lugar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_lugar"
+        android:layout_below="@id/tv_importe"
+        android:layout_alignRight="@id/tv_importe"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:text="Reparacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_reparacion"
+        android:layout_toRightOf="@id/imageView"
+        android:layout_below="@+id/tv_km"
+        android:layout_alignLeft="@id/tv_km"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp" />
+
+</RelativeLayout>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/activity_nuevo_coche">
+
+    <TextView
+        android:id="@+id/tvNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="41dp"
+        android:text="Nombre"
+        tools:text="@string/nombreCoche" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:text="Mi Coche"
+        android:ems="10"
+        android:layout_marginStart="22dp"
+        android:id="@+id/edtNombre"
+        android:layout_alignBaseline="@+id/tvNombre"
+        android:layout_alignBottom="@+id/tvNombre"
+        android:layout_toEndOf="@+id/tvNombre" />
+
+    <TextView
+        android:text="Icono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtNombre"
+        android:layout_alignStart="@+id/tvNombre"
+        android:layout_marginTop="33dp"
+        android:id="@+id/tvIcono" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_car_estate"
+        android:layout_alignBottom="@+id/iconUtilitario"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/iconFurgo"
+        android:onClick="onBtnFurgoClick" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_car_hatchback"
+        android:layout_marginTop="28dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:layout_below="@+id/tvIcono"
+        android:layout_toEndOf="@+id/tvIcono"
+        android:id="@+id/iconUtilitario"
+        android:onClick="onBtnUtilitarioClick" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_car_sports"
+        android:id="@+id/iconDeportivo"
+        android:layout_alignTop="@+id/iconFurgo"
+        android:layout_alignEnd="@+id/edtNombre"
+        android:onClick="onBtnDeportivoClick" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_circle"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/iconUtilitario"
+        android:id="@+id/iconColorNegro"
+        android:onClick="onBtnBlackClick" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_circle"
+        android:layout_alignBottom="@+id/iconColorNegro"
+        android:layout_alignStart="@+id/iconFurgo"
+        android:id="@+id/iconColorRojo"
+        android:onClick="onBtnRedClick" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_circle"
+        android:layout_alignTop="@+id/iconColorRojo"
+        android:layout_alignEnd="@+id/iconDeportivo"
+        android:id="@+id/iconColorAzul"
+        android:onClick="onBtnBlueClick" />
+
+    <TextView
+        android:text="Color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/iconColorNegro"
+        android:layout_alignStart="@+id/tvIcono"
+        android:id="@+id/tvColor" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_circle"
+        android:layout_marginTop="33dp"
+        android:id="@+id/imageButton"
+        android:layout_below="@+id/iconColorNegro"
+        android:layout_alignEnd="@+id/iconColorNegro"
+        android:onClick="onBtnGreenClick" />
+
+    <Button
+        android:id="@+id/guardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/imageViewCoche"
+        android:layout_marginBottom="30dp"
+        android:onClick="onBtnGuardarCoche"
+        android:text="Guardar" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_car_hatchback"
+        android:id="@+id/imageViewCoche"
+        android:layout_alignTop="@+id/edtNombre"
+        android:layout_toEndOf="@+id/edtNombre" />
+</RelativeLayout>
