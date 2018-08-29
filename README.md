@@ -14,7 +14,7 @@ DESARROLLO (para programadores)
 
 Si estás interesado en saber como funciona esta aplicación, o en realizar modificaciones, te interesa leer esta parte. Te servirá para luego entender mejor el código.
 
-###¿Cómo funciona internamente?###
+##¿Cómo funciona internamente?##
 
 La aplicación mantiene internamente dos listas, una lista de repostajes y otra de mantenimientos.
 
@@ -33,7 +33,7 @@ Cada vez que haces un repostaje se guardan los datos referentes a ese repostaje 
 
 Resumiendo: toda la aplicación se basa en tres listas de datos (Repostajes, Mantenimientos y Coches), aunque las dos primeras son las importantes.
 
-###Descripción de la Base de Datos###
+**Descripción de la Base de Datos**
 
 Habrá tres tablas en la BD; una para repostajes, otra para mantenimientos, y otra para los coches.
 
