@@ -14,7 +14,7 @@ DESARROLLO (para programadores)
 
 Si estás interesado en saber como funciona esta aplicación, o en realizar modificaciones, te interesa leer esta parte. Te servirá para luego entender mejor el código.
 
-##¿Cómo funciona internamente?##
+**¿Cómo funciona internamente?**
 
 La aplicación mantiene internamente dos listas, una lista de repostajes y otra de mantenimientos.
 
@@ -51,7 +51,8 @@ Además, tocando en un elemento de esta lista se va también a su página de det
 
 El funcionamiento de la lista de mantenimientos es igual al de la lista de repostajes.
 
-#####*Nota importante para programadores*
+*Nota importante para programadores*
+
 La forma de proceder al **añadir**, **modificar**, o **borrar** un elemento es: 
 1. Al dar al botón de guardar, se hace el cambio en la BD
 2. Se borra la lista
@@ -59,4 +60,4 @@ La forma de proceder al **añadir**, **modificar**, o **borrar** un elemento es:
 
 Una vez se tiene esto, sacar gráficas, resúmenes o informes de gastos es solo cuestión de echarle imaginación en lo que se quiera/pueda obtener con esos datos.
 
-*Esta documentación irá creciendo a medida que lo haga el proyecto.*
+*P.D.Esta documentación irá creciendo a medida que lo haga el proyecto.*
