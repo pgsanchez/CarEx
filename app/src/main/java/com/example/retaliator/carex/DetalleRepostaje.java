@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +34,7 @@ public class DetalleRepostaje extends AppCompatActivity {
     ArrayList lista = new ArrayList<Coche>();
     List<String> list = new ArrayList<String>();
     Spinner spinner;
+
 
 
     @Override
@@ -75,6 +80,19 @@ public class DetalleRepostaje extends AppCompatActivity {
                 //Another interface callback
             }
         });
+
+        final EditText edtImporte = (EditText) findViewById(R.id.edtImporte);
+        edtImporte.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    dlgRepostaje.setImporte(Float.parseFloat(edtImporte.getText().toString()));
+                    dlgRepostaje.setLitros(dlgRepostaje.getImporte()/dlgRepostaje.getPrecio());
+                    actualizaPantalla();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -145,7 +163,10 @@ public class DetalleRepostaje extends AppCompatActivity {
 
         importe.setText(String.valueOf(dlgRepostaje.getImporte()));
         precio.setText(String.valueOf(dlgRepostaje.getPrecio()));
-        litros.setText(String.valueOf(dlgRepostaje.getLitros()));
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        //litros.setText(String.valueOf(dlgRepostaje.getLitros()));
+        Float x = Float.valueOf(twoDForm.format(dlgRepostaje.getLitros()));
+        litros.setText(String.valueOf(x));
         kmTotales.setText(String.valueOf(dlgRepostaje.getKmTotales()));
         lugar.setText(String.valueOf(dlgRepostaje.getLugar()));
 
@@ -162,12 +183,14 @@ public class DetalleRepostaje extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        
-        dlgRepostaje.setFecha(mydate);
-        Toast.makeText(DetalleRepostaje.this, dlgRepostaje.getFecha().toString(), Toast.LENGTH_SHORT).show();
+
+        if (!edtFecha.getText().toString().isEmpty())
+            dlgRepostaje.setFecha(mydate);
+
 
         EditText edtImporte = (EditText) findViewById(R.id.edtImporte);
-        dlgRepostaje.setImporte(Float.parseFloat(edtImporte.getText().toString()));
+        if (!edtImporte.getText().toString().isEmpty())
+            dlgRepostaje.setImporte(Float.parseFloat(edtImporte.getText().toString()));
 
         EditText edtPrecio = (EditText) findViewById(R.id.edtPrecio);
         dlgRepostaje.setPrecio(Float.parseFloat(edtPrecio.getText().toString()));
@@ -179,7 +202,8 @@ public class DetalleRepostaje extends AppCompatActivity {
         dlgRepostaje.setKmTotales(Integer.parseInt(edtKmTotales.getText().toString()));
 
         EditText edtKmParciales = (EditText) findViewById(R.id.edtKmParciales);
-        dlgRepostaje.setKmParciales(Integer.parseInt(edtKmParciales.getText().toString()));
+        if (!edtKmParciales.getText().toString().isEmpty())
+            dlgRepostaje.setKmParciales(Integer.parseInt(edtKmParciales.getText().toString()));
 
         EditText edtLugar = (EditText) findViewById(R.id.edtLugar);
         dlgRepostaje.setLugar(edtLugar.getText().toString());

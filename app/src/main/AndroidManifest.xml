@@ -25,7 +25,7 @@
         <activity
             android:name=".DetalleMantenimiento"
             android:label=""
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".NuevoRepostaje"
             android:label=""
@@ -52,10 +52,20 @@
             android:label=""
             android:parentActivityName=".CarsListActivity" />
         <activity android:name=".Graficos" />
-        <activity android:name=".SearchActivity"
+        <activity
+            android:name=".SearchActivity"
             android:label="Buscar..."
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".InformesActivity"
+            android:label="@string/title_activity_informes"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.retaliator.carex.MainActivity" />
         </activity>
+        <activity android:name=".activity_informes2"></activity>
     </application>
 
 </manifest>

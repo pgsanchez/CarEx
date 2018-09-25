@@ -94,15 +94,6 @@
         android:layout_marginTop="26dp"
         android:id="@+id/tvLugar" />
 
-    <Button
-        android:text="Guardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/tmpBtnSave"
-        android:onClick="onBtnGuardar" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

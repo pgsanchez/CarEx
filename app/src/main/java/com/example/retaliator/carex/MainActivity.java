@@ -185,10 +185,12 @@ public class MainActivity extends AppCompatActivity {
 
 
             case R.id.chartIcon:
-                abrirGraficos(null);
+                //abrirGraficos(null);
+                abrirTablaGastos(null);
                 break;
             case R.id.searchIcon:
-                abrirVentanaDeBusqueda(null);
+                //abrirVentanaDeBusqueda(null);
+                abrirTablaGastos2(null);
                 break;
             default:
                 break;
@@ -276,6 +278,27 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(this, SearchActivity.class);
         intent.putExtra("listaMant", listaMant);
         intent.putExtra("listaCoches", listaCoches);
+        startActivity(intent);
+    }
+
+    public void abrirTablaGastos(View view) {
+
+        // Tabla buena
+        Intent intent;
+        intent = new Intent(this, InformesActivity.class);
+        intent.putExtra("listaCoches", listaCoches);
+        intent.putExtra("listaRepostajes", (ArrayList<Repostaje>)listaRepostajes);
+        intent.putExtra("listaMantenimientos", (ArrayList<Mantenimiento>)listaMantenimientos);
+        startActivity(intent);
+
+
+    }
+
+    public void abrirTablaGastos2(View view) {
+
+        // Tabla de prueba
+        Intent intent;
+        intent = new Intent(this, activity_informes2.class);
         startActivity(intent);
     }
 

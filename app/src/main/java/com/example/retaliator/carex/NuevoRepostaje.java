@@ -66,7 +66,7 @@ public class NuevoRepostaje extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String texto = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
                 for (int i = 0; i < lista.size(); i++) {
-                    if (texto == ((Coche)lista.get(i)).getNombre()){
+                    if (texto.equals(((Coche)lista.get(i)).getNombre())){
                         dlgRepostaje.setCoche(((Coche) lista.get(i)).getId_coche());
                         iconCar.setImageResource(((Coche)lista.get(i)).getIcono());
                         iconCar.setColorFilter(((Coche)lista.get(i)).getColor());

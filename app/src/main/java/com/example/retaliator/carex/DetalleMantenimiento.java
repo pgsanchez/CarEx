@@ -162,25 +162,32 @@ public class DetalleMantenimiento extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        dlgMantenimiento.setFecha(mydate);
+        if (!edtFecha.getText().toString().isEmpty())
+            dlgMantenimiento.setFecha(mydate);
 
         EditText edtImporte = (EditText) findViewById(R.id.edtImporte);
-        dlgMantenimiento.setImporte(Float.parseFloat(edtImporte.getText().toString()));
+        if (!edtImporte.getText().toString().isEmpty())
+            dlgMantenimiento.setImporte(Float.parseFloat(edtImporte.getText().toString()));
 
         EditText edtKmTotales = (EditText) findViewById(R.id.edtKmTotales);
-        dlgMantenimiento.setKmTotales(Integer.parseInt(edtKmTotales.getText().toString()));
+        if (!edtKmTotales.getText().toString().isEmpty())
+            dlgMantenimiento.setKmTotales(Integer.parseInt(edtKmTotales.getText().toString()));
 
         EditText edtKmParciales = (EditText) findViewById(R.id.edtKmParciales);
-        dlgMantenimiento.setKmParciales(Integer.parseInt(edtKmParciales.getText().toString()));
+        if (!edtKmParciales.getText().toString().isEmpty())
+            dlgMantenimiento.setKmParciales(Integer.parseInt(edtKmParciales.getText().toString()));
 
         EditText edtLugar = (EditText) findViewById(R.id.edtLugar);
-        dlgMantenimiento.setLugar(edtLugar.getText().toString());
+        if (!edtLugar.getText().toString().isEmpty())
+            dlgMantenimiento.setLugar(edtLugar.getText().toString());
 
         EditText edtTaller = (EditText) findViewById(R.id.edtTaller);
-        dlgMantenimiento.setTaller(edtTaller.getText().toString());
+        if (!edtTaller.getText().toString().isEmpty())
+            dlgMantenimiento.setTaller(edtTaller.getText().toString());
 
         EditText edtReparacion = (EditText) findViewById(R.id.edtDescripcion);
-        dlgMantenimiento.setReparacion(edtReparacion.getText().toString());
+        if (!edtReparacion.getText().toString().isEmpty())
+            dlgMantenimiento.setReparacion(edtReparacion.getText().toString());
 
         // Cerrar la Activity y devolver el objeto Repostaje con los datos
         Intent data = new Intent();
@@ -227,4 +234,5 @@ public class DetalleMantenimiento extends AppCompatActivity {
         btnBorrar.setEnabled(habilitar);
         btnGuardar.setEnabled(habilitar);
     }
+
 }

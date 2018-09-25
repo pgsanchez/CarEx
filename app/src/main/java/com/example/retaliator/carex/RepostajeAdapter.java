@@ -70,7 +70,7 @@ public class RepostajeAdapter extends BaseAdapter {
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         fecha.setText(formatoFecha.format(item.getFecha()));
-        importe.setText(String.valueOf(item.getImporte()));
+        importe.setText(String.valueOf(item.getImporte()) + "€");
         String textoKm = String.valueOf((item.getKmParciales())) + " / " + String.valueOf(item.getKmTotales() + " kms");
         km.setText(textoKm);
         lugar.setText((item.getLugar()));
