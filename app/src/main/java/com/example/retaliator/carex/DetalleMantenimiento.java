@@ -1,9 +1,12 @@
 package com.example.retaliator.carex;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,11 +19,14 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class DetalleMantenimiento extends AppCompatActivity {
@@ -30,6 +36,8 @@ public class DetalleMantenimiento extends AppCompatActivity {
     ArrayList lista = new ArrayList<Coche>();
     List<String> list = new ArrayList<String>();
     Spinner spinner;
+
+    boolean modoEditar = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +82,20 @@ public class DetalleMantenimiento extends AppCompatActivity {
                 //Another interface callback
             }
         });
+
+        // Asociar el menú contextual de borrar
+        ImageView imagenPapelera = (ImageView) findViewById(R.id.imageTrash);
+        registerForContextMenu(imagenPapelera);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_editar_repostaje_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_guardar);
+        item.setVisible(modoEditar);
+
         return true;
     }
 
@@ -88,7 +104,12 @@ public class DetalleMantenimiento extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_editar:
                 // Habilitar edición.
+                modoEditar = true;
+                this.invalidateOptionsMenu();
                 habilitarEdicion(true);
+                return true;
+            case R.id.menu_guardar:
+                onBtnGuardar(null);
                 return true;
 
             case android.R.id.home:
@@ -106,6 +127,26 @@ public class DetalleMantenimiento extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_contexto_borrar, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mCancel:
+                break;
+            case R.id.mDelete:
+                onBtnBorrar(null);
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
     public void actualizaPantalla()
@@ -144,7 +185,7 @@ public class DetalleMantenimiento extends AppCompatActivity {
 
         importe.setText(String.valueOf(dlgMantenimiento.getImporte()));
         kmTotales.setText(String.valueOf(dlgMantenimiento.getKmTotales()));
-        //kmParciales.setText(String.valueOf(dlgMantenimiento.getKmParciales()));
+        kmParciales.setText(String.valueOf(dlgMantenimiento.getKmParciales()));
         lugar.setText(String.valueOf(dlgMantenimiento.getLugar()));
         taller.setText(String.valueOf(dlgMantenimiento.getTaller()));
         descripcion.setText(String.valueOf(dlgMantenimiento.getReparacion()));
@@ -219,9 +260,14 @@ public class DetalleMantenimiento extends AppCompatActivity {
         TextView taller = (TextView) findViewById(R.id.edtTaller);
         TextView descripcion = (TextView) findViewById(R.id.edtDescripcion);
 
-        Button btnBorrar = (Button) findViewById(R.id.tmpBtnDelete);
-        Button btnGuardar = (Button) findViewById(R.id.tmpBtnSave);
         Spinner spinner = (Spinner) findViewById(R.id.carSpinner);
+
+        ImageView btnImagenBorrar = (ImageView) findViewById(R.id.imageTrash);
+        btnImagenBorrar.setEnabled(habilitar);
+        if (habilitar == true)
+            btnImagenBorrar.setColorFilter(Color.RED);
+        else
+            btnImagenBorrar.setColorFilter(Color.GRAY);
 
         fecha.setEnabled(habilitar);
         importe.setEnabled(habilitar);
@@ -231,8 +277,6 @@ public class DetalleMantenimiento extends AppCompatActivity {
         taller.setEnabled(habilitar);
         descripcion.setEnabled(habilitar);
         spinner.setEnabled(habilitar);
-        btnBorrar.setEnabled(habilitar);
-        btnGuardar.setEnabled(habilitar);
     }
 
 }

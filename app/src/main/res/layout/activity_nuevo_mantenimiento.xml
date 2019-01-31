@@ -38,6 +38,7 @@
         android:layout_below="@+id/iconMantenimiento"
         android:layout_toEndOf="@+id/iconMantenimiento"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="30dp"
         android:id="@+id/tvCoche" />
 
     <TextView
@@ -45,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCoche"
-        android:layout_alignStart="@+id/tvCoche"
+        android:layout_alignEnd="@+id/tvCoche"
         android:layout_marginTop="15dp"
         android:id="@+id/tvFechaMantenimiento" />
 
@@ -54,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvFechaMantenimiento"
-        android:layout_alignStart="@+id/tvFechaMantenimiento"
+        android:layout_alignEnd="@+id/tvFechaMantenimiento"
         android:layout_marginTop="19dp"
         android:id="@+id/tvImporte" />
 
@@ -63,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvImporte"
-        android:layout_alignStart="@+id/tvImporte"
+        android:layout_alignEnd="@+id/tvImporte"
         android:layout_marginTop="23dp"
         android:id="@+id/tvKmTotales" />
 
@@ -72,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvKmTotales"
-        android:layout_alignStart="@+id/tvKmTotales"
+        android:layout_alignEnd="@+id/tvKmTotales"
         android:layout_marginTop="26dp"
         android:id="@+id/tvLugar" />
 
@@ -81,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvLugar"
-        android:layout_alignStart="@+id/tvLugar"
+        android:layout_alignEnd="@+id/tvLugar"
         android:layout_marginTop="26dp"
         android:id="@+id/tvTaller" />
 
@@ -90,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTaller"
-        android:layout_alignStart="@+id/tvTaller"
+        android:layout_alignEnd="@+id/tvTaller"
         android:layout_marginTop="26dp"
         android:id="@+id/tvDescripcion" />
 

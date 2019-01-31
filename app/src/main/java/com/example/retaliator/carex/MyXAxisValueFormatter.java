@@ -1,5 +1,7 @@
 package com.example.retaliator.carex;
 
+import android.util.Log;
+
 import com.github.mikephil.charting.components.AxisBase;
 
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
@@ -18,6 +20,15 @@ public class MyXAxisValueFormatter implements IAxisValueFormatter {
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
         // "value" represents the position of the label on the axis (x or y)
-        return mValues[(int) value];
+        Integer i = (int) value;
+        //Log.d("Formatter size = ", i.toString());
+        if (((int) value < 0) || ((int) value >= mValues.length)) {
+            //Log.d("Return = ", "--");
+            return "--";
+        }
+        else{
+            //Log.d("Return = ", i.toString());
+            return mValues[(int) value];
+        }
     }
 }

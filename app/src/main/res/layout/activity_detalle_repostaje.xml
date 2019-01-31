@@ -40,6 +40,7 @@
         android:layout_below="@+id/iconRepostaje"
         android:layout_toEndOf="@+id/iconRepostaje"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="30dp"
         android:id="@+id/tvCoche" />
 
     <TextView
@@ -47,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCoche"
-        android:layout_alignStart="@+id/tvCoche"
+        android:layout_alignEnd="@+id/tvCoche"
         android:layout_marginTop="15dp"
         android:id="@+id/tvFechaRepostaje" />
 
@@ -56,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvFechaRepostaje"
-        android:layout_alignStart="@+id/tvFechaRepostaje"
+        android:layout_alignEnd="@+id/tvFechaRepostaje"
         android:layout_marginTop="19dp"
         android:id="@+id/tvImporte" />
 
@@ -65,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvImporte"
-        android:layout_alignStart="@+id/tvImporte"
+        android:layout_alignEnd="@+id/tvImporte"
         android:layout_marginTop="21dp"
         android:id="@+id/tvPrecio" />
 
@@ -74,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvPrecio"
-        android:layout_alignStart="@+id/tvPrecio"
+        android:layout_alignEnd="@+id/tvPrecio"
         android:layout_marginTop="20dp"
         android:id="@+id/tvLitros" />
 
@@ -83,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvLitros"
-        android:layout_alignStart="@+id/tvLitros"
+        android:layout_alignEnd="@+id/tvLitros"
         android:layout_marginTop="23dp"
         android:id="@+id/tvKmTotales" />
 
@@ -92,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvKmTotales"
-        android:layout_alignStart="@+id/tvKmTotales"
+        android:layout_alignEnd="@+id/tvKmTotales"
         android:layout_marginTop="24dp"
         android:id="@+id/tvKmParciales" />
 
@@ -101,29 +102,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvKmParciales"
-        android:layout_alignStart="@+id/tvKmParciales"
+        android:layout_alignEnd="@+id/tvKmParciales"
         android:layout_marginTop="26dp"
         android:id="@+id/tvLugar" />
 
-    <Button
-        android:text="Guardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/tmpBtnSave"
-        android:onClick="onBtnGuardar" />
-
-    <Button
-        android:text="Borrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/tmpBtnDelete"
-        android:onClick="onBtnBorrar" />
-
-    <EditText
+       <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="date"
@@ -216,5 +199,13 @@
         android:layout_above="@+id/edtFecha"
         android:layout_alignParentEnd="true"
         android:id="@+id/iconCar" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/ic_trash_can_outline_light"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageTrash"/>
 
 </RelativeLayout>

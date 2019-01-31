@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".InformesActivity"
+    tools:context="com.example.retaliator.carex.InformesActivity"
     tools:showIn="@layout/activity_informes">
+
+    <TextView
+        android:id="@+id/resumenGastos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="55dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:lineSpacingExtra="5dp"/>
 
     <TableLayout
         android:id="@+id/tablaGastos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5sp"
-        android:layout_marginTop="5sp">
+        android:layout_marginEnd="55dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/resumenGastos">
 
         <TableRow
             android:id="@+id/cabecera"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FF008800"
             android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/celda00"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="end"
                 android:textStyle="bold"
-                android:background="#FF990000"
                 android:stretchColumns="2"
                 android:padding="10dp"
+                android:textSize="16sp"
                 android:text="Gastos" />
+
+            <TextView
+                android:id="@+id/celda01"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:stretchColumns="2"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="Coche 1"/>
         </TableRow>
 
         <View
@@ -50,10 +68,19 @@
                 android:id="@+id/celda10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textStyle="bold"
+                android:gravity="end"
                 android:padding="10dp"
+                android:textSize="16sp"
                 android:text="Gasolina" />
+
+            <TextView
+                android:id="@+id/celda11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="175,25€"/>
         </TableRow>
 
         <TableRow
@@ -66,11 +93,19 @@
                 android:id="@+id/celda20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textStyle="bold"
-                android:background="#FF990000"
+                android:gravity="end"
                 android:padding="10dp"
+                android:textSize="16sp"
                 android:text="Mantenimiento" />
+
+            <TextView
+                android:id="@+id/celda21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="175,25€"/>
         </TableRow>
 
         <View
@@ -87,12 +122,23 @@
                 android:id="@+id/celda30"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="end"
                 android:textStyle="bold"
                 android:padding="10dp"
+                android:textSize="16sp"
                 android:text="TOTAL" />
+
+            <TextView
+                android:id="@+id/celda31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="175,25€"/>
 
         </TableRow>
     </TableLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

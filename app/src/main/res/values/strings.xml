@@ -7,11 +7,14 @@
 
     <string name="menu_guardar">Guardar</string>
     <string name="menu_editar">Editar</string>
+    <string name="menu_borrar">Borrar</string>
+    <string name="menu_cancelar">Cancelar</string>
 
     <string name="nombreCoche">Nombre</string>
 
     <string name="Advertencia1">Primero debe crear un coche</string>
     <string name="title_activity_informes">Informes</string>
+    <string name="title_activity_graficos">Gráficos</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

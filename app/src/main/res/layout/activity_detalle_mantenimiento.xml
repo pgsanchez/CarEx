@@ -38,6 +38,7 @@
         android:layout_below="@+id/iconRepostaje"
         android:layout_toEndOf="@+id/iconRepostaje"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="30dp"
         android:id="@+id/tvCoche" />
 
     <TextView
@@ -45,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCoche"
-        android:layout_alignStart="@+id/tvCoche"
+        android:layout_alignEnd="@+id/tvCoche"
         android:layout_marginTop="15dp"
         android:id="@+id/tvFecha" />
 
@@ -54,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvFecha"
-        android:layout_alignStart="@+id/tvFecha"
+        android:layout_alignEnd="@+id/tvFecha"
         android:layout_marginTop="19dp"
         android:id="@+id/tvImporte" />
 
@@ -63,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvKmTotales"
-        android:layout_alignStart="@+id/tvKmTotales"
+        android:layout_alignEnd="@+id/tvKmTotales"
         android:layout_marginTop="24dp"
         android:id="@+id/tvKmParciales" />
 
@@ -72,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvKmParciales"
-        android:layout_alignStart="@+id/tvKmParciales"
+        android:layout_alignEnd="@+id/tvKmParciales"
         android:layout_marginTop="26dp"
         android:id="@+id/tvLugar" />
 
@@ -83,14 +84,14 @@
         android:layout_marginTop="19dp"
         android:id="@+id/tvKmTotales"
         android:layout_below="@+id/tvImporte"
-        android:layout_alignStart="@+id/tvImporte" />
+        android:layout_alignEnd="@+id/tvImporte" />
 
     <TextView
         android:text="Taller"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvLugar"
-        android:layout_alignStart="@+id/tvLugar"
+        android:layout_alignEnd="@+id/tvLugar"
         android:layout_marginTop="19dp"
         android:id="@+id/tvTaller" />
 
@@ -99,7 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTaller"
-        android:layout_alignStart="@+id/tvTaller"
+        android:layout_alignEnd="@+id/tvTaller"
         android:layout_marginTop="20dp"
         android:id="@+id/tvDescripcion" />
 
@@ -197,22 +198,12 @@
         android:gravity="end"
         android:inputType="textMultiLine" />
 
-    <Button
-        android:text="Guardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/ic_trash_can_outline_light"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/tmpBtnSave"
-        android:onClick="onBtnGuardar" />
-
-    <Button
-        android:text="Borrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/tmpBtnDelete"
-        android:onClick="onBtnBorrar" />
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageTrash"/>
 
 </RelativeLayout>

@@ -8,9 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Juan Nadie on 10/12/2017.
@@ -71,7 +74,13 @@ public class MantenimientoAdapter extends BaseAdapter {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         fecha.setText(formatoFecha.format(item.getFecha()));
         importe.setText(String.valueOf(item.getImporte()) + "€");
-        String textoKm = String.valueOf((item.getKmParciales())) + " / " + String.valueOf(item.getKmTotales() + " kms");
+
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
+        otherSymbols.setDecimalSeparator(',');
+        otherSymbols.setGroupingSeparator('.');
+        DecimalFormat formatea = new DecimalFormat("###,###.##", otherSymbols);
+        
+        String textoKm = String.valueOf(formatea.format(item.getKmParciales())) + " / " + String.valueOf(formatea.format(item.getKmTotales())) + " kms";
         km.setText(textoKm);
         lugar.setText((item.getLugar()));
         reparacion.setText(item.getReparacion());

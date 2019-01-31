@@ -51,7 +51,6 @@
             android:name=".DetalleCoche"
             android:label=""
             android:parentActivityName=".CarsListActivity" />
-        <activity android:name=".Graficos" />
         <activity
             android:name=".SearchActivity"
             android:label="Buscar..."
@@ -64,6 +63,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.retaliator.carex.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Graficos"
+            android:label="@string/title_activity_graficos"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".activity_informes2"></activity>
     </application>

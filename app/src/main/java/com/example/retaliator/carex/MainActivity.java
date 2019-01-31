@@ -184,13 +184,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
 
-            case R.id.chartIcon:
-                //abrirGraficos(null);
+            case R.id.reportIcon:
                 abrirTablaGastos(null);
                 break;
+            case R.id.chartIcon:
+                abrirGraficos(null);
+                break;
             case R.id.searchIcon:
-                //abrirVentanaDeBusqueda(null);
-                abrirTablaGastos2(null);
+                abrirVentanaDeBusqueda(null);
+                //abrirTablaGastos2(null);
                 break;
             default:
                 break;
@@ -265,9 +267,12 @@ public class MainActivity extends AppCompatActivity {
         // Abrir ventana de Graficos (ahora solo con datos de ejemplo
         ArrayList<Repostaje> listaRep = new ArrayList<>();
         listaRep = (ArrayList<Repostaje>)listaRepostajes;
+        ArrayList<Mantenimiento> listaMant = new ArrayList<>();
+        listaMant = (ArrayList<Mantenimiento>)listaMantenimientos;
         Intent intent;
         intent = new Intent(this, Graficos.class);
         intent.putExtra("listaRepostajes", listaRep);
+        intent.putExtra("listaMantenimientos", listaMant);
         startActivity(intent);
     }
 

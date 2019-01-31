@@ -1,14 +1,17 @@
 package com.example.retaliator.carex;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,11 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DetalleRepostaje extends AppCompatActivity {
 
@@ -35,7 +40,10 @@ public class DetalleRepostaje extends AppCompatActivity {
     List<String> list = new ArrayList<String>();
     Spinner spinner;
 
-
+    float importe = 0;
+    float precio = 0;
+    float litros = 0;
+    boolean modoEditar = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +89,7 @@ public class DetalleRepostaje extends AppCompatActivity {
             }
         });
 
-        final EditText edtImporte = (EditText) findViewById(R.id.edtImporte);
+        /*final EditText edtImporte = (EditText) findViewById(R.id.edtImporte);
         edtImporte.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -91,7 +99,142 @@ public class DetalleRepostaje extends AppCompatActivity {
                     actualizaPantalla();
                 }
             }
+        });*/
+
+        // Escuchar cambios en el EditText de Importe
+        final EditText edtImporte = (EditText)findViewById(R.id.edtImporte);
+        edtImporte.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                EditText edtPrecio = (EditText) findViewById(R.id.edtPrecio);
+                EditText edtLitros = (EditText) findViewById(R.id.edtLitros);
+
+                // Si se ha detectado un cambio en Importe que viene del usuario:
+                // Recogemos el nuevo valor que pone el usuario (puede ser un valor, o 0 si borra el valor del "editImporte")
+                if (edtImporte.getText().toString().isEmpty())
+                    importe = 0;
+                else {
+                    // Si se ha detectado un cambio en Importe, pero no ha sido por el usuario, entonces el "editImporte" tiene que tener el mismo valor que la variable "importe". Y en este caso, no hacemos nada.
+                    if (Float.parseFloat(edtImporte.getText().toString()) == importe)
+                        return;
+                    else
+                        importe = Float.parseFloat(edtImporte.getText().toString());
+                }
+
+                if (!edtPrecio.getText().toString().isEmpty())
+                    precio = Float.parseFloat(edtPrecio.getText().toString());
+                if (!edtLitros.getText().toString().isEmpty())
+                    litros = Float.parseFloat(edtLitros.getText().toString());
+
+
+                if (litros == 0)
+                    precio = 0;
+                else {
+                    precio = importe / litros;
+                    precio = (float) formatearDecimales(precio, 3);
+                }
+                edtPrecio.setText(String.valueOf(precio));
+            }
         });
+
+        // Escuchar cambios en el EditText de Precio
+        final EditText edtPrecio = (EditText) findViewById(R.id.edtPrecio);
+        edtPrecio.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                EditText edtImporte = (EditText)findViewById(R.id.edtImporte);
+                EditText edtLitros = (EditText) findViewById(R.id.edtLitros);
+
+                // Si se ha detectado un cambio en Precio que viene del usuario:
+                // Recogemos el nuevo valor que pone el usuario (puede ser un valor, o 0 si borra el valor del "edtPrecio")
+                if (edtPrecio.getText().toString().isEmpty())
+                    precio = 0;
+                else{
+                    // Si se ha detectado un cambio en Precio, pero no ha sido por el usuario, entonces el "edtPrecio" tiene que tener el mismo valor que la variable "precio". Y en este caso, no hacemos nada.
+                    if (Float.parseFloat(edtPrecio.getText().toString()) == precio)
+                        return;
+                    else
+                        precio = Float.parseFloat(edtPrecio.getText().toString());
+                }
+
+
+                if (!edtImporte.getText().toString().isEmpty())
+                    importe = Float.parseFloat(edtImporte.getText().toString());
+                if (!edtLitros.getText().toString().isEmpty())
+                    litros = Float.parseFloat(edtLitros.getText().toString());
+
+                if (precio == 0)
+                    litros = 0;
+                else {
+                    litros = importe / precio;
+                    litros = (float) formatearDecimales(litros, 2);
+                }
+                edtLitros.setText(String.valueOf(litros));
+            }
+        });
+
+        // Escuchar cambios en el EditText de Litros
+        final EditText edtLitros = (EditText) findViewById(R.id.edtLitros);
+        edtLitros.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                EditText edtImporte = (EditText)findViewById(R.id.edtImporte);
+                EditText edtPrecio = (EditText) findViewById(R.id.edtPrecio);
+
+
+
+                // Si se ha detectado un cambio en Litros que viene del usuario:
+                // Recogemos el nuevo valor que pone el usuario (puede ser un valor, o 0 si borra el valor del "edtLitros")
+                if (edtLitros.getText().toString().isEmpty())
+                    litros = 0;
+                else {
+                    // Si se ha detectado un cambio en Litros, pero no ha sido por el usuario, entonces el "edtLitros" tiene que tener el mismo valor que la variable "litros". Y en este caso, no hacemos nada.
+                    if (Float.parseFloat(edtLitros.getText().toString()) == litros)
+                        return;
+                    else
+                        litros = Float.parseFloat(edtLitros.getText().toString());
+                }
+
+                if (!edtImporte.getText().toString().isEmpty())
+                    importe = Float.parseFloat(edtImporte.getText().toString());
+                if (!edtPrecio.getText().toString().isEmpty())
+                    precio = Float.parseFloat(edtPrecio.getText().toString());
+
+
+                importe = precio*litros;
+                importe = (float)formatearDecimales(importe, 2);
+                edtImporte.setText(String.valueOf(importe));
+            }
+        });
+
+        // Asociar el menú contextual de borrar
+        ImageView imagenPapelera = (ImageView) findViewById(R.id.imageTrash);
+        registerForContextMenu(imagenPapelera);
+
 
     }
 
@@ -99,6 +242,10 @@ public class DetalleRepostaje extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_editar_repostaje_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_guardar);
+        item.setVisible(modoEditar);
+
         return true;
     }
 
@@ -107,7 +254,12 @@ public class DetalleRepostaje extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_editar:
                 // Habilitar edición.
+                modoEditar = true;
+                this.invalidateOptionsMenu();
                 habilitarEdicion(true);
+                return true;
+            case R.id.menu_guardar:
+                onBtnGuardar(null);
                 return true;
 
             case android.R.id.home:
@@ -125,6 +277,26 @@ public class DetalleRepostaje extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_contexto_borrar, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mCancel:
+                break;
+            case R.id.mDelete:
+                onBtnBorrar(null);
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
     public void actualizaPantalla()
@@ -164,10 +336,11 @@ public class DetalleRepostaje extends AppCompatActivity {
         importe.setText(String.valueOf(dlgRepostaje.getImporte()));
         precio.setText(String.valueOf(dlgRepostaje.getPrecio()));
         DecimalFormat twoDForm = new DecimalFormat("#.##");
-        //litros.setText(String.valueOf(dlgRepostaje.getLitros()));
-        Float x = Float.valueOf(twoDForm.format(dlgRepostaje.getLitros()));
-        litros.setText(String.valueOf(x));
+        litros.setText(String.valueOf(dlgRepostaje.getLitros()));
+        //Float x = Float.valueOf(twoDForm.format(dlgRepostaje.getLitros()));
+        //litros.setText(String.valueOf(x));
         kmTotales.setText(String.valueOf(dlgRepostaje.getKmTotales()));
+        kmParciales.setText(String.valueOf((dlgRepostaje.getKmParciales())));
         lugar.setText(String.valueOf(dlgRepostaje.getLugar()));
 
     }
@@ -238,9 +411,15 @@ public class DetalleRepostaje extends AppCompatActivity {
         TextView kmParciales  = (TextView) findViewById(R.id.edtKmParciales);
         TextView lugar  = (TextView) findViewById(R.id.edtLugar);
 
-        Button btnBorrar = (Button) findViewById(R.id.tmpBtnDelete);
-        Button btnGuardar = (Button) findViewById(R.id.tmpBtnSave);
         Spinner spinner = (Spinner) findViewById(R.id.carSpinner);
+
+        ImageView btnImagenBorrar = (ImageView) findViewById(R.id.imageTrash);
+        btnImagenBorrar.setEnabled(habilitar);
+        if (habilitar == true)
+            btnImagenBorrar.setColorFilter(Color.RED);
+        else
+            btnImagenBorrar.setColorFilter(Color.GRAY);
+
 
         fecha.setEnabled(habilitar);
         importe.setEnabled(habilitar);
@@ -250,7 +429,10 @@ public class DetalleRepostaje extends AppCompatActivity {
         kmParciales.setEnabled(habilitar);
         lugar.setEnabled(habilitar);
         spinner.setEnabled(habilitar);
-        btnBorrar.setEnabled(habilitar);
-        btnGuardar.setEnabled(habilitar);
+    }
+
+    public static double formatearDecimales(float numero, Integer numeroDecimales) {
+
+        return Math.round(numero * Math.pow(10, numeroDecimales)) / Math.pow(10, numeroDecimales);
     }
 }

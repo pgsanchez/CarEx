@@ -32,6 +32,9 @@ public class InformesActivity extends AppCompatActivity {
     ArrayList<Repostaje> listaRepostajes = new ArrayList<Repostaje>();
     ArrayList<Mantenimiento> listaMantenimientos = new ArrayList<Mantenimiento>();
 
+    int numeroDeVisitasAlTaller = 0;
+    int numeroDeRepostajes = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +42,18 @@ public class InformesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listaCoches = (ArrayList<Coche>)getIntent().getExtras().getSerializable("listaCoches");
-        listaRepostajes = (ArrayList<Repostaje>)getIntent().getExtras().getSerializable("listaRepostajes");
-        listaMantenimientos = (ArrayList<Mantenimiento>)getIntent().getExtras().getSerializable("listaMantenimientos");
-
-        crearTablaDeGastos();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (getIntent() != null) {
+            listaCoches = (ArrayList<Coche>) getIntent().getExtras().getSerializable("listaCoches");
+            listaRepostajes = (ArrayList<Repostaje>) getIntent().getExtras().getSerializable("listaRepostajes");
+            listaMantenimientos = (ArrayList<Mantenimiento>) getIntent().getExtras().getSerializable("listaMantenimientos");
+        }
+
+        crearTablaDeGastos1Coche();
+
+
+
     }
 
     private void crearTablaDeGastos(){
@@ -115,25 +115,25 @@ public class InformesActivity extends AppCompatActivity {
             TableRow.LayoutParams param = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             param.setMargins(20,2,20,2);
             celda0.setText(c.getNombre()); // El nombre del coche
-            celda0.setGravity(Gravity.CENTER_HORIZONTAL);
+            celda0.setGravity(Gravity.END);
             celda0.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             celda0.setLayoutParams(param);
 
             importeGasolina = calcularImporteGasolina(c.getId_coche(), añoActual);
             celda1.setText(String.valueOf(formato1.format(importeGasolina))); // El importe de la gasolina
-            if (x==1)
+            /*if (x==1)
                 celda1.setBackgroundColor(Color.CYAN);
             else
-                celda1.setBackgroundColor(Color.GREEN);
-            celda1.setGravity(Gravity.RIGHT);
+                celda1.setBackgroundColor(Color.GREEN);*/
+            celda1.setGravity(Gravity.END);
             celda1.setLayoutParams(param);
 
             importeMantenimiento = calcularImporteMantenimiento(c.getId_coche(), añoActual);
             celda2.setText(String.valueOf(formato1.format(importeMantenimiento))); // El importe de los mantenimientos
-            if (x==1)
+            /*if (x==1)
                 celda2.setBackgroundColor(Color.CYAN);
             else
-                celda2.setBackgroundColor(Color.GREEN);
+                celda2.setBackgroundColor(Color.GREEN);*/
             celda2.setGravity(Gravity.CENTER_HORIZONTAL);
             celda2.setLayoutParams(param);
 
@@ -159,14 +159,54 @@ public class InformesActivity extends AppCompatActivity {
         table.addView(tableRow3);*/
     }
 
+    private void crearTablaDeGastos1Coche(){
+        Date fechaActual = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String añoActual = sdf.format(fechaActual);
+        float totalCoche1 = 0;
+
+
+        TableLayout table = (TableLayout) findViewById(R.id.tablaGastos);
+
+        TextView celda11 = (TextView) findViewById(R.id.celda11);
+        TextView celda21 = (TextView) findViewById(R.id.celda21);
+        TextView celda31 = (TextView) findViewById(R.id.celda31);
+
+        float importeGasolina = 0;
+        float importeMantenimiento = 0;
+
+        DecimalFormat formato1 = new DecimalFormat("0.00");
+
+
+        Coche c = listaCoches.get(0);
+
+
+            importeGasolina = calcularImporteGasolina(c.getId_coche(), añoActual);
+            String strImporteGasolina = String.valueOf(formato1.format(importeGasolina));
+            celda11.setText(strImporteGasolina + "€"); // El importe de la gasolina
+
+            importeMantenimiento = calcularImporteMantenimiento(c.getId_coche(), añoActual);
+            String strImporteMantenimiento = String.valueOf(formato1.format(importeMantenimiento));
+            celda21.setText(strImporteMantenimiento + "€"); // El importe de los mantenimientos
+
+            String strImporteTotal = String.valueOf(formato1.format(importeGasolina+importeMantenimiento));
+            celda31.setText(strImporteTotal + "€"); // El total
+
+        TextView resumen = (TextView) findViewById(R.id.resumenGastos);
+        String textoResumen = "En lo que va de año has ido al taller " + numeroDeVisitasAlTaller + " veces, con un gasto total de " + strImporteMantenimiento + "€. Además, has repostado " + numeroDeRepostajes + " veces, con un gasto de " + strImporteGasolina + "€. En total, has gastado en este coche " + strImporteTotal + "€.";
+        resumen.setText(textoResumen);
+    }
+
     private float calcularImporteGasolina(int coche, String anno)
     {
         float sumaImportes = 0;
+        numeroDeRepostajes = 0;
         for (Repostaje rep : listaRepostajes) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
             String  annoRepostaje= sdf.format(rep.getFecha());
             if ((annoRepostaje.equals(anno)) && (rep.getCoche() == coche)){
                 sumaImportes += rep.getImporte();
+                numeroDeRepostajes++;
             }
         }
         return sumaImportes;
@@ -175,11 +215,13 @@ public class InformesActivity extends AppCompatActivity {
     private float calcularImporteMantenimiento(int coche, String anno)
     {
         float sumaImportes = 0;
+        numeroDeVisitasAlTaller = 0;
         for (Mantenimiento mant : listaMantenimientos) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
             String  annoRepostaje= sdf.format(mant.getFecha());
             if ((annoRepostaje.equals(anno)) && (mant.getCoche() == coche)){
                 sumaImportes += mant.getImporte();
+                numeroDeVisitasAlTaller++;
             }
         }
         return sumaImportes;
