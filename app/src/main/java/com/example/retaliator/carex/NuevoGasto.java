@@ -1,8 +1,8 @@
 package com.example.retaliator.carex;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,19 +20,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Juan Nadie on 15/05/2018.
- */
-
-public class NuevoMantenimiento extends AppCompatActivity {
-    // Creamos un objeto mantenimiento que es el que se devolverá con los datos del nuevo mantenimiento
+public class NuevoGasto extends AppCompatActivity {
+    // Creamos un objeto mantenimiento que es el que se devolverá con los datos del nuevo gasto
     Mantenimiento dlgMantenimiento = new Mantenimiento();
     ArrayList lista = new ArrayList<Coche>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_mantenimiento);
+        setContentView(R.layout.activity_nuevo_gasto);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -41,8 +37,8 @@ public class NuevoMantenimiento extends AppCompatActivity {
         final Spinner spinner = (Spinner) findViewById(R.id.carSpinner);
         lista = (ArrayList<Coche>)getIntent().getExtras().getSerializable("listaCoches");
         for (int i = 0; i < lista.size(); i++) {
-          Coche c = (Coche)lista.get(i);
-        list.add(c.getNombre());
+            Coche c = (Coche)lista.get(i);
+            list.add(c.getNombre());
         }
         dlgMantenimiento.setCoche(((Coche)lista.get(0)).getId_coche());
 
@@ -60,6 +56,10 @@ public class NuevoMantenimiento extends AppCompatActivity {
         Date date = new Date();
         TextView fecha  = (TextView) findViewById(R.id.edtFecha);
         fecha.setText(dateFormat.format(date));
+
+        // Se marca el ckeck que corresponda
+        int tipo = getIntent().getExtras().getInt("tipoGasto");
+        actualizarPantalla(tipo);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -125,19 +125,16 @@ public class NuevoMantenimiento extends AppCompatActivity {
         dlgMantenimiento.setFecha(mydate);
 
         EditText edtImporte = (EditText) findViewById(R.id.edtImporte);
-        dlgMantenimiento.setImporte(Float.parseFloat(edtImporte.getText().toString()));
+        if (!edtImporte.getText().toString().isEmpty())
+            dlgMantenimiento.setImporte(Float.parseFloat(edtImporte.getText().toString()));
 
         EditText edtKmTotales = (EditText) findViewById(R.id.edtKmTotales);
-        dlgMantenimiento.setKmTotales(Integer.parseInt(edtKmTotales.getText().toString()));
+        if (!edtKmTotales.getText().toString().isEmpty())
+            dlgMantenimiento.setKmTotales(Integer.parseInt(edtKmTotales.getText().toString()));
 
         EditText edtLugar = (EditText) findViewById(R.id.edtLugar);
-        dlgMantenimiento.setLugar(edtLugar.getText().toString());
-
-        EditText edtTaller = (EditText) findViewById(R.id.edtTaller);
-        dlgMantenimiento.setTaller(edtTaller.getText().toString());
-
-        EditText edtDescripcion = (EditText) findViewById(R.id.edtDescripcion);
-        dlgMantenimiento.setReparacion(edtDescripcion.getText().toString());
+        if (!edtLugar.getText().toString().isEmpty())
+            dlgMantenimiento.setLugar(edtLugar.getText().toString());
 
         // Cerrar la Activity y devolver el objeto Repostaje con los datos
         Intent data = new Intent();
@@ -146,5 +143,40 @@ public class NuevoMantenimiento extends AppCompatActivity {
         finish();
     }
 
+    public void actualizarPantalla(int tipoGasto){
+        TextView tvTitulo = (TextView) findViewById(R.id.tvTituloMantenimiento);
+        EditText edtLugar = (EditText) findViewById(R.id.edtLugar);
+        EditText edtKmTotales = (EditText) findViewById(R.id.edtKmTotales);
+        TextView tvLugar = (TextView) findViewById(R.id.tvLugar);
+        TextView tvKmTotales = (TextView) findViewById(R.id.tvKmTotales);
 
+        // Check which checkbox was clicked
+        switch(tipoGasto) {
+            case R.id.mITV:
+                tvTitulo.setText("ITV");
+                //tvKmTotales.setVisibility(View.VISIBLE); // Mostrar el TV de Km
+                //edtKmTotales.setVisibility(View.VISIBLE);// Mostrar el edit de Km
+                edtKmTotales.setText("0");
+                edtLugar.setText("");
+                dlgMantenimiento.setTipo_gasto(getResources().getString(R.string.BD_ITV));
+                break;
+            case R.id.mSeguro:
+                tvTitulo.setText("SEGURO");
+                tvLugar.setText("Compañía"); // Cambiar el TV de Lugar por Compañía
+                tvKmTotales.setVisibility(View.INVISIBLE); // Ocultar el TV de Km
+                edtKmTotales.setVisibility(View.INVISIBLE); // Ocultar el edit de Km
+                dlgMantenimiento.setTipo_gasto(getResources().getString(R.string.BD_Seguro));
+                break;
+            case R.id.mImpCir:
+                tvTitulo.setText("IMP. CIRCULACION");
+                //edtKmTotales.setText("0");
+                //tvLugar.setText("Lugar");// Cambiar el TV de por Lugar
+                tvKmTotales.setVisibility(View.INVISIBLE); // Ocultar el TV de Km
+                edtKmTotales.setVisibility(View.INVISIBLE); // Ocultar el edit de Km
+                dlgMantenimiento.setTipo_gasto(getResources().getString(R.string.BD_IVTM));
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.retaliator.carex;
 
 import android.content.Context;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,9 +57,7 @@ public class MantenimientoAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_mantenimiento_list, parent, false);
         }
 
-        // Esta parte es la que hay que modificar con el layout de los elementos que hay que crear
-        // desde aquí-----------------
-
+        // Se obtienen los controles gráficos (TextViews, Edits, icono...)
         ImageView icono = (ImageView) convertView.findViewById(R.id.imageView);
         TextView fecha  = (TextView) convertView.findViewById(R.id.tv_fecha);
         TextView importe = (TextView) convertView.findViewById(R.id.tv_importe);
@@ -65,25 +65,43 @@ public class MantenimientoAdapter extends BaseAdapter {
         TextView lugar = (TextView) convertView.findViewById(R.id.tv_lugar);
         TextView reparacion = (TextView) convertView.findViewById(R.id.tv_reparacion);
 
-
+        // Y se da valor a esos controles gráficos con los datos del "Mantenimiento"
+        // Se pone el icono del coche
         Mantenimiento item = this.listaMantenimientos.get(position);
         Coche coche = getCocheById(item.getCoche());
         icono.setImageResource(coche.getIcono());
         icono.setColorFilter(coche.getColor());
 
+        // Se pone la fecha y el importe
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         fecha.setText(formatoFecha.format(item.getFecha()));
         importe.setText(String.valueOf(item.getImporte()) + "€");
 
+        // Se prepara el formato de los separadores de "miles" y "decimales"
         DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
         otherSymbols.setDecimalSeparator(',');
         otherSymbols.setGroupingSeparator('.');
         DecimalFormat formatea = new DecimalFormat("###,###.##", otherSymbols);
-        
-        String textoKm = String.valueOf(formatea.format(item.getKmParciales())) + " / " + String.valueOf(formatea.format(item.getKmTotales())) + " kms";
+
+        // Se ponen los km, lugar y reparación
+        String textoKm = "--/--";
+        if (item.getTipo_gasto().equals("Mantenimiento")) {
+            textoKm = String.valueOf(formatea.format(item.getKmParciales())) + " / " + String.valueOf(formatea.format(item.getKmTotales())) + " kms";
+            reparacion.setText(item.getReparacion());
+        } else if (item.getTipo_gasto().equals("ITV")) {
+            textoKm = String.valueOf("--" + " / " + String.valueOf(formatea.format(item.getKmTotales())) + " kms");
+            //reparacion.setTextColor(0xFF00FF00); //this is green color
+            String texto = "<font color=#0000ff>" + item.getTipo_gasto() + "</font>";
+            reparacion.setText(Html.fromHtml(texto));
+        } else if (item.getTipo_gasto().equals("Seguro") || item.getTipo_gasto().equals("Imp. Circulacion")) {
+            //reparacion.setTextColor(0xFF00FF00); //this is green color
+            String texto = "<font color=#0000ff>" + item.getTipo_gasto() + "</font>";
+            reparacion.setText(Html.fromHtml(texto));
+        }
+
         km.setText(textoKm);
         lugar.setText((item.getLugar()));
-        reparacion.setText(item.getReparacion());
+        //reparacion.setText(item.getReparacion());
 
         // hasta aquí--------------------------
 

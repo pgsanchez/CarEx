@@ -3,6 +3,8 @@ package com.example.retaliator.carex;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import com.example.retaliator.carex.CarExContract.*;
 
 /**
@@ -11,7 +13,7 @@ import com.example.retaliator.carex.CarExContract.*;
 
 public class CarExHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "CarExDB.db";
 
     public CarExHelper(Context context) {
@@ -48,10 +50,33 @@ public class CarExHelper extends SQLiteOpenHelper {
                 + CochesEntry.NOMBRE + " TEXT NOT NULL UNIQUE,"
                 + CochesEntry.COLOR + " TEXT,"
                 + CochesEntry.ICONO + " TEXT)");
+
+        // Aplicamos las sucesivas actualizaciones
+        upgrade_2(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Actualización a versión 2
+        if (oldVersion < 2)
+        {
+            upgrade_2(db);
+        }
+    }
+
+    private void upgrade_2(SQLiteDatabase db)
+    {
+        //
+        // Upgrade versión 2: Modificar tabla de Mantenimientos para añadir la columna "tipo_gasto"
+        // Esta columna servira para guardar en esta tabla los gastos de ITV, Seguro e Impuesto
+        // de circulación.
+        //
+
+        db.execSQL( "ALTER TABLE " + MantenimientoEntry.TABLE_NAME + " ADD " + MantenimientoEntry.TIPO_GASTO + " TEXT DEFAULT 'Mantenimiento'");
+        String update = "ALTER TABLE " + MantenimientoEntry.TABLE_NAME + " ADD " + MantenimientoEntry.TIPO_GASTO + " TEXT DEFAULT 'Mantenimiento'";
+
+        Log.i(this.getClass().toString(), update);
 
     }
+
 }

@@ -8,28 +8,28 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:id="@+id/activity_nuevo_mantenimiento"
-    tools:context="com.example.retaliator.carex.NuevoMantenimiento">
+    android:id="@+id/activity_detalle_gasto"
+    tools:context="com.example.retaliator.carex.NuevoGasto">
 
     <ImageView
+        android:id="@+id/iconMantenimiento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_wrench"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="13dp"
         android:layout_marginTop="12dp"
-        android:id="@+id/iconMantenimiento" />
+        app:srcCompat="@drawable/ic_currency_eur" />
 
     <TextView
-        android:text="MANTENIMIENTO"
+        android:id="@+id/tvTituloMantenimiento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/iconMantenimiento"
-        android:layout_toEndOf="@+id/iconMantenimiento"
         android:layout_marginStart="27dp"
         android:layout_marginTop="13dp"
-        android:id="@+id/tvTituloMantenimiento" />
+        android:layout_toEndOf="@+id/iconMantenimiento"
+        android:text="OTROS GASTOS" />
 
     <TextView
         android:text="Coche"
@@ -60,40 +60,22 @@
         android:id="@+id/tvImporte" />
 
     <TextView
-        android:text="Km Totales"
+        android:text="Lugar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvImporte"
         android:layout_alignEnd="@+id/tvImporte"
-        android:layout_marginTop="23dp"
-        android:id="@+id/tvKmTotales" />
-
-    <TextView
-        android:text="Lugar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvKmTotales"
-        android:layout_alignEnd="@+id/tvKmTotales"
         android:layout_marginTop="26dp"
         android:id="@+id/tvLugar" />
 
     <TextView
-        android:text="Taller"
+        android:text="Km Totales"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvLugar"
         android:layout_alignEnd="@+id/tvLugar"
-        android:layout_marginTop="26dp"
-        android:id="@+id/tvTaller" />
-
-    <TextView
-        android:text="Descripción"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTaller"
-        android:layout_alignEnd="@+id/tvTaller"
-        android:layout_marginTop="26dp"
-        android:id="@+id/tvDescripcion" />
+        android:layout_marginTop="23dp"
+        android:id="@+id/tvKmTotales" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -156,27 +138,12 @@
         android:gravity="end"
         android:inputType="textCapWords" />
 
-    <EditText
-        android:id="@+id/edtTaller"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvTaller"
-        android:layout_alignBottom="@+id/tvTaller"
-        android:layout_alignEnd="@+id/edtFecha"
-        android:ems="8"
-        android:gravity="end"
-        android:inputType="textCapWords" />
-
-    <EditText
-        android:id="@+id/edtDescripcion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvDescripcion"
-        android:layout_alignBottom="@+id/tvDescripcion"
-        android:layout_alignEnd="@+id/edtFecha"
-        android:ems="10"
-        android:gravity="end"
-        android:inputType="textMultiLine"
-        android:textSize="14sp" />
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/ic_trash_can_outline_light"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/imageTrash"/>
 
 </RelativeLayout>

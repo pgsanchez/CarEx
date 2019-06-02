@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int EDITAR_REPOSTAJE = 102;
     private static final int NUEVO_MANTENIMIENTO = 103;
     private static final int EDITAR_MANTENIMIENTO = 104;
+    private static final int NUEVO_GASTO = 105;
+    private static final int EDITAR_GASTO = 106;
 
 
     private ListView repostajesListView; // Actividades de la lista de repostajes
@@ -145,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Añado un menú contextual al botón de "Añadir"
+        registerForContextMenu(fab);
+
     }
 
     @Override
@@ -201,9 +207,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_contexto_otros_gastos, menu);
+    }
 
-
-
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.mITV:
+                nuevoGasto(R.id.mITV);
+                return true;
+            case R.id.mSeguro:
+                nuevoGasto(R.id.mSeguro);
+                return true;
+            case R.id.mImpCir:
+                nuevoGasto(R.id.mImpCir);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     public static MainActivity getInstance() {
         return myContext;
@@ -212,7 +237,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public void nuevoGasto(int tipo_gasto){
+        Intent intent;
 
+        intent = new Intent(this, NuevoGasto.class);
+        intent.putExtra("listaCoches", listaCoches);
+        intent.putExtra("tipoGasto", tipo_gasto);
+        startActivityForResult(intent, NUEVO_GASTO);
+    }
 
 
     public void nuevaOperacion(View view) {
@@ -256,11 +288,20 @@ public class MainActivity extends AppCompatActivity {
         // ha seleccionado
         mantenimientoSeleccionado = listaMantenimientos.get(pos);
 
-        Intent intent;
-        intent = new Intent(this, DetalleMantenimiento.class);
-        intent.putExtra("mantenimientoSeleccionado",mantenimientoSeleccionado);
-        intent.putExtra("listaCoches", listaCoches);
-        startActivityForResult(intent, EDITAR_MANTENIMIENTO);
+         //Aquí hay que diferenciar si es un mantenimiento o un gasto y abrir la ventana que sea y pasarle el tipo en otro parámetro.
+        if (mantenimientoSeleccionado.getTipo_gasto().equals("Mantenimiento")) {
+            Intent intent;
+            intent = new Intent(this, DetalleMantenimiento.class);
+            intent.putExtra("mantenimientoSeleccionado", mantenimientoSeleccionado);
+            intent.putExtra("listaCoches", listaCoches);
+            startActivityForResult(intent, EDITAR_MANTENIMIENTO);
+        } else {
+            Intent intent;
+            intent = new Intent(this, DetalleGasto.class);
+            intent.putExtra("mantenimientoSeleccionado", mantenimientoSeleccionado);
+            intent.putExtra("listaCoches", listaCoches);
+            startActivityForResult(intent, EDITAR_GASTO);
+        }
     }
 
     public void abrirGraficos(View view) {
@@ -397,6 +438,43 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else if (resultCode == RESULT_CANCELED) {
+                // Se ha cancelado; no se hace nada
+            }
+        }
+
+        // Los nuevos gastos serán considerados mantenimientos
+        Mantenimiento objGasto = new Mantenimiento();
+        if (requestCode == NUEVO_GASTO){
+            if (resultCode == RESULT_OK){
+                // Hay que recoger el objeto que vendrá en el Intent y cargarlo en la BD
+                objGasto = (Mantenimiento)data.getExtras().getSerializable("parametro");
+                tablaMantenimientoDB.insertarMantenimientoDB(objGasto);
+                tablaMantenimientoDB.leerMantenimientosBD();
+                // Actualizar la lista en pantalla
+                mantenimientoAdapter.notifyDataSetChanged();
+            }
+            else if (resultCode == RESULT_CANCELED) {
+                // Se ha cancelado; no se hace nada.
+            }
+        }else if (requestCode == EDITAR_GASTO){
+            if (resultCode == RESULT_OK){
+                // Puede ser una operación de MODIFICAR o de BORRAR. Comprobamos:
+                objGasto = (Mantenimiento)data.getExtras().getSerializable("parametro");
+                if (objGasto.getLugar().equals("Borrar Mantenimiento") && (objGasto.getKmTotales() == 0) && (objGasto.getImporte() == 110011))
+                {
+                    // Se borra el objeto de la BD
+                    tablaMantenimientoDB.borrarMantenimientoDB(mantenimientoSeleccionado);
+                    tablaMantenimientoDB.leerMantenimientosBD();
+                    // Actualizar la lista en pantalla
+                    mantenimientoAdapter.notifyDataSetChanged();
+                } else {
+                    // Se modifica el objeto en la BD
+                    tablaMantenimientoDB.actualizarMantenimientoDB(objGasto, mantenimientoSeleccionado);
+                    tablaMantenimientoDB.leerMantenimientosBD();
+                    // Actualizar la lista en pantalla
+                    mantenimientoAdapter.notifyDataSetChanged();
+                }
+            } else if (resultCode == RESULT_CANCELED) {
                 // Se ha cancelado; no se hace nada
             }
         }

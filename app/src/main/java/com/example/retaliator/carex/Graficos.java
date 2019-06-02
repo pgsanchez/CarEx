@@ -32,7 +32,8 @@ import java.util.ListIterator;
 
 public class Graficos extends AppCompatActivity {
 
-    private String meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+    private String meses[] = {"Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"};
+    //private String meses[] = {"E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
     private String[] annos;
     private String[] annos2;
 
@@ -186,6 +187,7 @@ public class Graficos extends AppCompatActivity {
         xAxis.setTextSize(10f);
         xAxis.setLabelRotationAngle(45);
         xAxis.setDrawAxisLine(true);
+        xAxis.setLabelCount(12);
         xAxis.setDrawGridLines(true);
         xAxis.setCenterAxisLabels(false);
         xAxis.setValueFormatter(new MyXAxisValueFormatter(meses));

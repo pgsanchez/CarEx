@@ -13,7 +13,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -21,9 +24,11 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 
 public class InformesActivity extends AppCompatActivity {
@@ -34,6 +39,7 @@ public class InformesActivity extends AppCompatActivity {
 
     int numeroDeVisitasAlTaller = 0;
     int numeroDeRepostajes = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +56,31 @@ public class InformesActivity extends AppCompatActivity {
             listaMantenimientos = (ArrayList<Mantenimiento>) getIntent().getExtras().getSerializable("listaMantenimientos");
         }
 
-        crearTablaDeGastos1Coche();
+
+        List<Integer> list = new ArrayList<Integer>(); // Lista de años. Comienzo en 2015
+        final Spinner spinner = (Spinner) findViewById(R.id.annoSpinner);
+        Calendar annoActual = Calendar.getInstance();
+        for (int i = annoActual.get(Calendar.YEAR); i > 2015; i--) {
+            list.add(i);
+        }
+        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, list);
+        spinner.setAdapter(dataAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Integer nuevoAnno = (int) spinner.getItemAtPosition(spinner.getSelectedItemPosition());
+                crearTablaDeGastos1Coche(nuevoAnno);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //Another interface callback
+            }
+        });
+
+        crearTablaDeGastos1Coche(annoActual.get(Calendar.YEAR));
+        EscribirGastosTotales();
 
 
 
@@ -159,10 +189,11 @@ public class InformesActivity extends AppCompatActivity {
         table.addView(tableRow3);*/
     }
 
-    private void crearTablaDeGastos1Coche(){
-        Date fechaActual = new Date();
+    private void crearTablaDeGastos1Coche(Integer anno){
+        /*Date fechaActual = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        String añoActual = sdf.format(fechaActual);
+        String añoActual = sdf.format(fechaActual);*/
+        String añoActual2 = anno.toString();
         float totalCoche1 = 0;
 
 
@@ -181,11 +212,11 @@ public class InformesActivity extends AppCompatActivity {
         Coche c = listaCoches.get(0);
 
 
-            importeGasolina = calcularImporteGasolina(c.getId_coche(), añoActual);
+            importeGasolina = calcularImporteGasolina(c.getId_coche(), añoActual2);
             String strImporteGasolina = String.valueOf(formato1.format(importeGasolina));
             celda11.setText(strImporteGasolina + "€"); // El importe de la gasolina
 
-            importeMantenimiento = calcularImporteMantenimiento(c.getId_coche(), añoActual);
+            importeMantenimiento = calcularImporteMantenimiento(c.getId_coche(), añoActual2);
             String strImporteMantenimiento = String.valueOf(formato1.format(importeMantenimiento));
             celda21.setText(strImporteMantenimiento + "€"); // El importe de los mantenimientos
 
@@ -193,7 +224,7 @@ public class InformesActivity extends AppCompatActivity {
             celda31.setText(strImporteTotal + "€"); // El total
 
         TextView resumen = (TextView) findViewById(R.id.resumenGastos);
-        String textoResumen = "En lo que va de año has ido al taller " + numeroDeVisitasAlTaller + " veces, con un gasto total de " + strImporteMantenimiento + "€. Además, has repostado " + numeroDeRepostajes + " veces, con un gasto de " + strImporteGasolina + "€. En total, has gastado en este coche " + strImporteTotal + "€.";
+        String textoResumen = "En este año (" + añoActual2 + ") has ido al taller " + numeroDeVisitasAlTaller + " veces, con un gasto total de " + strImporteMantenimiento + "€. Además, has repostado " + numeroDeRepostajes + " veces, con un gasto de " + strImporteGasolina + "€. En total, has gastado en este coche " + strImporteTotal + "€.";
         resumen.setText(textoResumen);
     }
 
@@ -235,5 +266,40 @@ public class InformesActivity extends AppCompatActivity {
 
         p.getTextBounds(texto, 0, texto.length(), bounds);
         return bounds.width();
+    }
+
+    private void EscribirGastosTotales()
+    {
+        Coche c = listaCoches.get(0);
+        int coche = c.getId_coche();
+
+        float sumaImportesRep = 0;
+        numeroDeRepostajes = 0;
+        for (Repostaje rep : listaRepostajes) {
+            if (rep.getCoche() == coche){
+                sumaImportesRep += rep.getImporte();
+                numeroDeRepostajes++;
+            }
+        }
+
+        float sumaImportesMant = 0;
+        numeroDeVisitasAlTaller = 0;
+        for (Mantenimiento mant : listaMantenimientos) {
+            if (mant.getCoche() == coche){
+                sumaImportesMant += mant.getImporte();
+                numeroDeVisitasAlTaller++;
+            }
+        }
+
+        DecimalFormat formato1 = new DecimalFormat("0.00");
+        String strImporteGasolina = String.valueOf(formato1.format(sumaImportesRep));
+        String strImporteMantenimientos = String.valueOf(formato1.format(sumaImportesMant));
+        String strImporteTotal = String.valueOf(formato1.format(sumaImportesRep+sumaImportesMant));
+
+        TextView resumenTotales = (TextView) findViewById(R.id.resumenGastosTotales);
+        String textoResumen = "Desde que apuntas los gastos, en este coche has echado gasolina " + numeroDeRepostajes
+                + " veces, con un gasto total de " + strImporteGasolina + "€. Además, has ido al taller " + numeroDeVisitasAlTaller
+                + " veces, con un gasto total de " + strImporteMantenimientos + "€. En total, en el coche llevas gastados " + strImporteTotal + "€.";
+        resumenTotales.setText(textoResumen);
     }
 }

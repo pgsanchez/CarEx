@@ -15,6 +15,16 @@
     <string name="Advertencia1">Primero debe crear un coche</string>
     <string name="title_activity_informes">Informes</string>
     <string name="title_activity_graficos">Gráficos</string>
+
+    <string name="menu_ITV">ITV</string>
+    <string name="menu_Seguro">Seguro</string>
+    <string name="menu_ImpCir">Imp. Circulación</string>
+
+    <string name="BD_Mantenimiento">Mantenimiento</string>
+    <string name="BD_ITV">ITV</string>
+    <string name="BD_Seguro">Seguro</string>
+    <string name="BD_IVTM">Imp. Circulacion</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

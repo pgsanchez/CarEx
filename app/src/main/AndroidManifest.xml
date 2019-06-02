@@ -67,9 +67,16 @@
         <activity
             android:name=".Graficos"
             android:label="@string/title_activity_graficos"
-            android:parentActivityName=".MainActivity">
-        </activity>
-        <activity android:name=".activity_informes2"></activity>
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".activity_informes2" />
+        <activity
+            android:name=".NuevoGasto"
+            android:label=""
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".DetalleGasto"
+            android:label=""
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

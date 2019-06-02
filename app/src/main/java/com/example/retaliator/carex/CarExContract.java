@@ -36,6 +36,7 @@ public final class CarExContract {
         public static final String TALLER = "taller";
         public static final String REPARACION = "reparacion";
         public static final String FECHA = "fecha";
+        public static final String TIPO_GASTO = "tipo_gasto";
     }
 
     public static abstract class CochesEntry implements BaseColumns {

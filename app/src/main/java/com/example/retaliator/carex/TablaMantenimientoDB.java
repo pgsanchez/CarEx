@@ -24,6 +24,9 @@ public class TablaMantenimientoDB {
         this.baseDatos = baseDatos;
     }
 
+    // ***********************************************************************
+    //                  Leer la tabla Mantenimientos de la BD
+    // ***********************************************************************
     public ArrayList<Mantenimiento> leerMantenimientosBD() {
         // Gets the data repository in write mode
         SQLiteDatabase db = baseDatos.getReadableDatabase();
@@ -39,7 +42,8 @@ public class TablaMantenimientoDB {
                 CarExContract.MantenimientoEntry.LUGAR,
                 CarExContract.MantenimientoEntry.TALLER,
                 CarExContract.MantenimientoEntry.REPARACION,
-                CarExContract.MantenimientoEntry.FECHA
+                CarExContract.MantenimientoEntry.FECHA,
+                CarExContract.MantenimientoEntry.TIPO_GASTO
         };
 
         String orderBy = CarExContract.MantenimientoEntry.FECHA + " ASC";
@@ -74,8 +78,11 @@ public class TablaMantenimientoDB {
                 mant.setLugar(c.getString(c.getColumnIndexOrThrow(CarExContract.MantenimientoEntry.LUGAR)));
                 mant.setTaller(c.getString(c.getColumnIndexOrThrow(CarExContract.MantenimientoEntry.TALLER)));
                 mant.setReparacion(c.getString(c.getColumnIndexOrThrow(CarExContract.MantenimientoEntry.REPARACION)));
+                mant.setTipo_gasto(c.getString(c.getColumnIndexOrThrow(CarExContract.MantenimientoEntry.TIPO_GASTO)));
 
-                //***************************************************
+                // --------------------------------------------------
+                // Calcula los Km parciales entre mantenimientos
+                // --------------------------------------------------
                 cocheEncontrado = false;
                 for (Mantenimiento rep: listaMantAnt) {
                     if (rep.getCoche() == mant.getCoche()) {
@@ -93,7 +100,8 @@ public class TablaMantenimientoDB {
                     listaMantAnt.add(mant);
                 }
 
-                //***************************************************
+                // --------------------------------------------------
+                // Añade el "mantenimiento" a la lista de Mantenimientos
                 listaMantenimientos.add(mant);
             } while(c.moveToNext());
         }
@@ -127,7 +135,24 @@ public class TablaMantenimientoDB {
         // Gets the data repository in write mode
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
-        String whereClause = CarExContract.MantenimientoEntry.COCHE + "='" + oldMantenimiento.getCoche() + "' and " + CarExContract.MantenimientoEntry.KMTOTALES + "='" + oldMantenimiento.getKmTotales() + "'";
+        String whereClause = "";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        if (oldMantenimiento.getTipo_gasto() == "Mantenimiento") {
+            whereClause = CarExContract.MantenimientoEntry.COCHE + "='" + oldMantenimiento.getCoche() + "' and "
+                    + CarExContract.MantenimientoEntry.KMTOTALES + "='" + oldMantenimiento.getKmTotales() + "' and "
+                    + CarExContract.MantenimientoEntry.TIPO_GASTO + "='" + oldMantenimiento.getTipo_gasto() + "'";
+        }
+        else if (oldMantenimiento.getTipo_gasto() == "ITV") {
+            whereClause = CarExContract.MantenimientoEntry.COCHE + "='" + oldMantenimiento.getCoche() + "' and "
+                    + CarExContract.MantenimientoEntry.KMTOTALES + "='" + oldMantenimiento.getKmTotales() + "' and "
+                    + CarExContract.MantenimientoEntry.TIPO_GASTO + "='" + oldMantenimiento.getTipo_gasto() + "' and "
+                    + CarExContract.MantenimientoEntry.FECHA + "='" + formatter.format(oldMantenimiento.getFecha()) + "'";
+        } else {
+            whereClause = CarExContract.MantenimientoEntry.COCHE + "='" + oldMantenimiento.getCoche() + "' and "
+                    + CarExContract.MantenimientoEntry.TIPO_GASTO + "='" + oldMantenimiento.getTipo_gasto() + "' and "
+                    + CarExContract.MantenimientoEntry.FECHA + "='" + formatter.format(oldMantenimiento.getFecha()) + "'";
+        }
 
         if (db.update(CarExContract.MantenimientoEntry.TABLE_NAME, toContentValues(newMantenimiento),whereClause, null) == -1) {
             // Mostrar mensaje de error
@@ -142,7 +167,9 @@ public class TablaMantenimientoDB {
         // Gets the data repository in write mode
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
-        String whereClause = CarExContract.MantenimientoEntry.COCHE + "='" + objMantenimiento.getCoche() + "' and " + CarExContract.MantenimientoEntry.KMTOTALES + "='" + objMantenimiento.getKmTotales() + "'";
+        String whereClause = CarExContract.MantenimientoEntry.COCHE + "='" + objMantenimiento.getCoche() + "' and "
+                + CarExContract.MantenimientoEntry.KMTOTALES + "='" + objMantenimiento.getKmTotales() + "' and "
+                + CarExContract.MantenimientoEntry.TIPO_GASTO + "='" + objMantenimiento.getTipo_gasto() + "'";
 
         if (db.delete(CarExContract.MantenimientoEntry.TABLE_NAME, whereClause, null) == -1){
             // Mostrar mensaje de error
@@ -166,6 +193,7 @@ public class TablaMantenimientoDB {
         values.put(CarExContract.MantenimientoEntry.LUGAR, objetoMantenimiento.getLugar());
         values.put(CarExContract.MantenimientoEntry.TALLER, objetoMantenimiento.getTaller());
         values.put(CarExContract.MantenimientoEntry.REPARACION, objetoMantenimiento.getReparacion());
+        values.put(CarExContract.MantenimientoEntry.TIPO_GASTO, objetoMantenimiento.getTipo_gasto());
 
         return values;
     }

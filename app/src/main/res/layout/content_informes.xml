@@ -8,20 +8,32 @@
     tools:context="com.example.retaliator.carex.InformesActivity"
     tools:showIn="@layout/activity_informes">
 
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="8"
+        android:id="@+id/annoSpinner"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="12dp"
+        android:gravity="end" />
+
     <TextView
         android:id="@+id/resumenGastos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="55dp"
-        android:layout_marginStart="55dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
-        android:textSize="16sp"
+        android:layout_below="@id/annoSpinner"
+        android:textSize="14sp"
         android:lineSpacingExtra="5dp"/>
 
     <TableLayout
         android:id="@+id/tablaGastos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="55dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="25dp"
@@ -140,5 +152,16 @@
 
         </TableRow>
     </TableLayout>
+
+    <TextView
+        android:id="@+id/resumenGastosTotales"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/tablaGastos"
+        android:textSize="14sp"
+        android:lineSpacingExtra="5dp"/>
 
 </RelativeLayout>

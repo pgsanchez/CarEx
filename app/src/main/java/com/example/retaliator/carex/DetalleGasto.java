@@ -2,8 +2,10 @@ package com.example.retaliator.carex;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,28 +13,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.StringTokenizer;
 
-public class DetalleMantenimiento extends AppCompatActivity {
-
-    // Creamos un objeto mantenimiento que es el que mostraremos en la pantalla
-    Mantenimiento dlgMantenimiento = new Mantenimiento();
+public class DetalleGasto extends AppCompatActivity {
+    // Creamos un objeto gasto (de tipo Mantenimiento) que es el que mostraremos en la pantalla
+    Mantenimiento dlgGasto = new Mantenimiento();
     ArrayList lista = new ArrayList<Coche>();
     List<String> list = new ArrayList<String>();
     Spinner spinner;
@@ -40,11 +35,9 @@ public class DetalleMantenimiento extends AppCompatActivity {
     boolean modoEditar = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detalle_mantenimiento);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_detalle_gasto);
 
         if (getIntent() != null){
             // Se recoge la lista de coches
@@ -54,8 +47,10 @@ public class DetalleMantenimiento extends AppCompatActivity {
                 list.add(c.getNombre());
             }
 
-            dlgMantenimiento = (Mantenimiento)getIntent().getExtras().getSerializable("mantenimientoSeleccionado");
-            actualizaPantalla();
+            dlgGasto = (Mantenimiento)getIntent().getExtras().getSerializable("mantenimientoSeleccionado");
+            // Se marca el ckeck que corresponda
+            actualizarPantalla(dlgGasto.getTipo_gasto());
+
             // Inhabilitar edición. Solo se puede editar si se pulsa el botón de editar.
             habilitarEdicion(false);
         }
@@ -69,7 +64,7 @@ public class DetalleMantenimiento extends AppCompatActivity {
                 String texto = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
                 for (int i = 0; i < lista.size(); i++) {
                     if (texto == ((Coche)lista.get(i)).getNombre()){
-                        dlgMantenimiento.setCoche(((Coche) lista.get(i)).getId_coche());
+                        dlgGasto.setCoche(((Coche) lista.get(i)).getId_coche());
                         iconCar.setImageResource(((Coche)lista.get(i)).getIcono());
                         iconCar.setColorFilter(((Coche)lista.get(i)).getColor());
                         return;
@@ -149,46 +144,17 @@ public class DetalleMantenimiento extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
-    public void actualizaPantalla()
+    public void onBtnBorrar(View view)
     {
-        spinner = (Spinner) findViewById(R.id.carSpinner);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list);
-        spinner.setAdapter(dataAdapter);
+        dlgGasto.setImporte(110011);
+        dlgGasto.setKmTotales(0);
+        dlgGasto.setLugar("Borrar Mantenimiento");
 
-        ImageView iconCar = (ImageView) findViewById((R.id.iconCar));
-        TextView fecha  = (TextView) findViewById(R.id.edtFecha);
-        TextView importe  = (TextView) findViewById(R.id.edtImporte);
-        TextView kmTotales  = (TextView) findViewById(R.id.edtKmTotales);
-        TextView kmParciales  = (TextView) findViewById(R.id.edtKmParciales);
-        TextView lugar  = (TextView) findViewById(R.id.edtLugar);
-        TextView taller = (TextView) findViewById(R.id.edtTaller);
-        TextView descripcion = (TextView) findViewById(R.id.edtDescripcion);
-
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        fecha.setText(formatoFecha.format(dlgMantenimiento.getFecha()));
-
-        String nombreCoche = "";
-        for (int i = 0; i < lista.size(); i++) {
-            if (dlgMantenimiento.getCoche() == ((Coche)lista.get(i)).getId_coche()){
-                nombreCoche = ((Coche)lista.get(i)).getNombre();
-                // Se pone el icono correspondiente
-                iconCar.setImageResource(((Coche)lista.get(i)).getIcono());
-                iconCar.setColorFilter(((Coche)lista.get(i)).getColor());
-            }
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            if (nombreCoche == list.get(i))
-                spinner.setSelection(i);
-        }
-
-        importe.setText(String.valueOf(dlgMantenimiento.getImporte()));
-        kmTotales.setText(String.valueOf(dlgMantenimiento.getKmTotales()));
-        kmParciales.setText(String.valueOf(dlgMantenimiento.getKmParciales()));
-        lugar.setText(String.valueOf(dlgMantenimiento.getLugar()));
-        taller.setText(String.valueOf(dlgMantenimiento.getTaller()));
-        descripcion.setText(String.valueOf(dlgMantenimiento.getReparacion()));
+        // Cerrar la Activity y devolver el objeto Repostaje con los datos
+        Intent data = new Intent();
+        data.putExtra("parametro",dlgGasto);
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     public void onBtnGuardar(View view)
@@ -204,79 +170,114 @@ public class DetalleMantenimiento extends AppCompatActivity {
         }
 
         if (!edtFecha.getText().toString().isEmpty())
-            dlgMantenimiento.setFecha(mydate);
+            dlgGasto.setFecha(mydate);
 
         EditText edtImporte = (EditText) findViewById(R.id.edtImporte);
         if (!edtImporte.getText().toString().isEmpty())
-            dlgMantenimiento.setImporte(Float.parseFloat(edtImporte.getText().toString()));
+            dlgGasto.setImporte(Float.parseFloat(edtImporte.getText().toString()));
 
         EditText edtKmTotales = (EditText) findViewById(R.id.edtKmTotales);
         if (!edtKmTotales.getText().toString().isEmpty())
-            dlgMantenimiento.setKmTotales(Integer.parseInt(edtKmTotales.getText().toString()));
-
-        EditText edtKmParciales = (EditText) findViewById(R.id.edtKmParciales);
-        if (!edtKmParciales.getText().toString().isEmpty())
-            dlgMantenimiento.setKmParciales(Integer.parseInt(edtKmParciales.getText().toString()));
+            dlgGasto.setKmTotales(Integer.parseInt(edtKmTotales.getText().toString()));
 
         EditText edtLugar = (EditText) findViewById(R.id.edtLugar);
         if (!edtLugar.getText().toString().isEmpty())
-            dlgMantenimiento.setLugar(edtLugar.getText().toString());
-
-        EditText edtTaller = (EditText) findViewById(R.id.edtTaller);
-        if (!edtTaller.getText().toString().isEmpty())
-            dlgMantenimiento.setTaller(edtTaller.getText().toString());
-
-        EditText edtReparacion = (EditText) findViewById(R.id.edtDescripcion);
-        if (!edtReparacion.getText().toString().isEmpty())
-            dlgMantenimiento.setReparacion(edtReparacion.getText().toString());
+            dlgGasto.setLugar(edtLugar.getText().toString());
 
         // Cerrar la Activity y devolver el objeto Repostaje con los datos
         Intent data = new Intent();
-        data.putExtra("parametro",dlgMantenimiento);
+        data.putExtra("parametro",dlgGasto);
         setResult(RESULT_OK, data);
         finish();
     }
 
-    public void onBtnBorrar(View view)
-    {
-        dlgMantenimiento.setImporte(110011);
-        dlgMantenimiento.setKmTotales(0);
-        dlgMantenimiento.setLugar("Borrar Mantenimiento");
+    public void actualizarPantalla(String  tipoGasto){
+        TextView tvTitulo = (TextView) findViewById(R.id.tvTituloMantenimiento);
+        spinner = (Spinner) findViewById(R.id.carSpinner);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        spinner.setAdapter(dataAdapter);
 
-        // Cerrar la Activity y devolver el objeto Repostaje con los datos
-        Intent data = new Intent();
-        data.putExtra("parametro",dlgMantenimiento);
-        setResult(RESULT_OK, data);
-        finish();
+        ImageView iconCar = (ImageView) findViewById((R.id.iconCar));
+        TextView fecha  = (TextView) findViewById(R.id.edtFecha);
+        TextView importe  = (TextView) findViewById(R.id.edtImporte);
+        TextView tvLugar = (TextView) findViewById(R.id.tvLugar);
+        TextView tvKmTotales = (TextView) findViewById(R.id.tvKmTotales);
+        EditText edtLugar = (EditText) findViewById(R.id.edtLugar);
+        EditText edtKmTotales = (EditText) findViewById(R.id.edtKmTotales);
+
+        String nombreCoche = "";
+        for (int i = 0; i < lista.size(); i++) {
+            if (dlgGasto.getCoche() == ((Coche)lista.get(i)).getId_coche()){
+                nombreCoche = ((Coche)lista.get(i)).getNombre();
+                // Se pone el icono correspondiente
+                iconCar.setImageResource(((Coche)lista.get(i)).getIcono());
+                iconCar.setColorFilter(((Coche)lista.get(i)).getColor());
+            }
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            if (nombreCoche.equals(list.get(i)))
+                spinner.setSelection(i);
+        }
+
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        fecha.setText(formatoFecha.format(dlgGasto.getFecha()));
+        importe.setText(String.valueOf(dlgGasto.getImporte()));
+
+        // Check which checkbox was clicked
+        switch(tipoGasto) {
+            case "ITV":
+                tvTitulo.setText(R.string.BD_ITV);
+                //tvKmTotales.setVisibility(View.VISIBLE); // Mostrar el TV de Km
+                //edtKmTotales.setVisibility(View.VISIBLE);// Mostrar el edit de Km
+                edtKmTotales.setText(String.valueOf(dlgGasto.getKmTotales()));
+                //tvLugar.setText("Lugar");
+                edtLugar.setText(dlgGasto.getLugar());
+                break;
+            case "Seguro":
+                tvTitulo.setText(R.string.BD_Seguro);
+                //edtKmTotales.setText("0"); // Este diría que sobra
+                tvLugar.setText("Compañía"); // Cambiar el TV de Lugar por Compañía
+                edtLugar.setText(dlgGasto.getLugar());
+                tvKmTotales.setVisibility(View.INVISIBLE); // Ocultar el TV de Km
+                edtKmTotales.setVisibility(View.INVISIBLE); // Ocultar el edit de Km
+                break;
+            case "Imp. Circulacion":
+                tvTitulo.setText(R.string.BD_IVTM);
+                //edtKmTotales.setText("0"); // Este diría que sobra
+                //tvLugar.setText("Lugar");// Cambiar el TV de por Lugar
+                edtLugar.setText(dlgGasto.getLugar());
+                tvKmTotales.setVisibility(View.INVISIBLE); // Ocultar el TV de Km
+                edtKmTotales.setVisibility(View.INVISIBLE); // Ocultar el edit de Km
+                break;
+            default:
+                break;
+        }
     }
 
     public void habilitarEdicion(boolean habilitar){
 
+        Spinner spinner = (Spinner) findViewById(R.id.carSpinner);
+
         TextView fecha  = (TextView) findViewById(R.id.edtFecha);
         TextView importe  = (TextView) findViewById(R.id.edtImporte);
         TextView kmTotales  = (TextView) findViewById(R.id.edtKmTotales);
-        TextView kmParciales  = (TextView) findViewById(R.id.edtKmParciales);
         TextView lugar  = (TextView) findViewById(R.id.edtLugar);
-        TextView taller = (TextView) findViewById(R.id.edtTaller);
-        TextView descripcion = (TextView) findViewById(R.id.edtDescripcion);
-
-        Spinner spinner = (Spinner) findViewById(R.id.carSpinner);
 
         ImageView btnImagenBorrar = (ImageView) findViewById(R.id.imageTrash);
         btnImagenBorrar.setEnabled(habilitar);
-        if (habilitar == true)
+        if (habilitar)
             btnImagenBorrar.setColorFilter(Color.RED);
         else
             btnImagenBorrar.setColorFilter(Color.GRAY);
 
+        spinner.setEnabled(habilitar);
+
         fecha.setEnabled(habilitar);
         importe.setEnabled(habilitar);
         kmTotales.setEnabled(habilitar);
-        kmParciales.setEnabled(habilitar);
         lugar.setEnabled(habilitar);
-        taller.setEnabled(habilitar);
-        descripcion.setEnabled(habilitar);
-        spinner.setEnabled(habilitar);
-    }
 
+    }
 }
