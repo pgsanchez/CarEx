@@ -19,6 +19,24 @@
         android:layout_marginTop="12dp"
         android:gravity="end" />
 
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="8"
+        android:id="@+id/carSpinner"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/annoSpinner"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="12dp"
+        android:gravity="end" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_car_hatchback"
+        android:layout_toEndOf="@+id/carSpinner"
+        android:id="@+id/iconCar" />
+
     <TextView
         android:id="@+id/resumenGastos"
         android:layout_width="wrap_content"
@@ -120,6 +138,81 @@
                 android:text="175,25€"/>
         </TableRow>
 
+        <TableRow
+            android:id="@+id/itv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/celda30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="@string/menu_ITV" />
+
+            <TextView
+                android:id="@+id/celda31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="175,25€"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/seguro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/celda40"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="@string/menu_Seguro" />
+
+            <TextView
+                android:id="@+id/celda41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="175,25€"/>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/impCir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/celda50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="@string/menu_ImpCir" />
+
+            <TextView
+                android:id="@+id/celda51"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:text="175,25€"/>
+        </TableRow>
+
         <View
             android:layout_height="2dip"
             android:background="#FF909090" />
@@ -131,7 +224,7 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/celda30"
+                android:id="@+id/celda60"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -141,7 +234,7 @@
                 android:text="TOTAL" />
 
             <TextView
-                android:id="@+id/celda31"
+                android:id="@+id/celda61"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"

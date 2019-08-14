@@ -10,7 +10,7 @@ public class Mantenimiento extends Actividad{
     // Atributos de la clase
     private String taller ;
     private String reparacion;
-    private String tipo_gasto;
+    private String tipo_gasto; // "ITV" / "Seguro" / "Imp. Circulacion" / "Mantenimiento"
 
     public Mantenimiento() {
         super();

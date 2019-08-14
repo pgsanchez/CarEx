@@ -35,6 +35,7 @@ public class TablaCochesDB {
                 CarExContract.CochesEntry.ICONO
         };
 
+        String orderBy = CarExContract.CochesEntry._ID + " DESC";
         Cursor c = db.query(
                 CarExContract.CochesEntry.TABLE_NAME, // The table to query
                 projection,                           // The columns to return
@@ -42,7 +43,7 @@ public class TablaCochesDB {
                 null,                                 // The values for the WHERE clause
                 null,                                 // don't group the rows
                 null,                                 // don't filter by row groups
-                null                                  // The sort order
+                orderBy                                  // The sort order
         );
 
         listaCoches.clear();
