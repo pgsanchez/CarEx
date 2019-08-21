@@ -2,6 +2,9 @@ INTRODUCCIÓN
 ============
 
 GastaCar es una aplicación pensada para apuntar los gastos que tienes en tu coche (o en tus coches). Luego podrás verlos de manera resumida y ver con más claridad cuanto gastas cada año en el coche.
+
+GastaCar te dará información sobre el gasto anual en combustible, reparaciones, ITV, Seguro e Impuestos. Ten en cuenta una cosa; esta, como el resto de aplicaciones parecidas, solo te empezará a resultar útil a medio/largo plazo, cuando los datos que hayas ido metiendo en la aplicación sean suficientes como para que la información que te da sea un reflejo real de tus gastos en el coche.
+
 En el market podrás encontrar varias aplicaciones como esta. No creo que esta sea la mejor ni la más completa. Entonces, ¿en qué se diferencia del resto? Pues simplemente en que la he desarrollado para cubrir mis necesidades, ya que el resto siempre tenían algo que no me terminaba de convencer. Esta aplicación es mas simple y mas sencilla que el resto; algunas tienen tanta información que abruma y, sinceramente, hay mucha información que yo no utilizo. Además esta aplicación es completamente gratuita y no tiene publicidad. Como digo la he desarrollado para mí, y no necesito sacar dinero con ella. Con que me sea útil es suficiente.
 
 Capturas de pantalla
