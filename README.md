@@ -26,11 +26,11 @@ VERSIONES
 DESARROLLO (para programadores)
 -------------------------------
 
-Si estás interesado en saber como funciona esta aplicación, o en realizar modificaciones, te interesa leer esta parte. Te servirá para luego entender mejor el código.
+Si estás interesado en saber como funciona internamente esta aplicación, o en realizar modificaciones, te interesa leer esta parte. Te servirá para luego entender mejor el código.
 
 **¿Cómo funciona internamente?**
 
-La aplicación mantiene internamente dos listas, una lista de repostajes y otra de mantenimientos.
+La aplicación mantiene internamente tres listas, una de coches, una lista de repostajes y otra de mantenimientos. Estas dos últimas son las importantes.
 
 Un repostaje es, como su propio nombre indica, una anotación que se hace en la aplicación cada vez que echas gasolina al coche.
 
@@ -38,14 +38,15 @@ Un mantenimiento es una anotación que se hace cada vez que llevas el coche al t
 
 Repostaje y Mantenimiento son dos objetos que tienen una serie de atributos (que se describirán más adelante) para guardar toda la información relevante de esas acciones.
 
-Cualquiera de las dos acciones se puede realizar sobre distintos coches (si tienes más de uno). Para hacer esto, también habrá un sistema de gestión de coches que permitirá añadir, borrar y modificar coches. El coche solo tiene dos datos; un nombre para reconocerlo, y un icono asociado para que sea más fácil encontrarlo en las listas.
+Cualquiera de las dos acciones se puede realizar sobre distintos coches (si tienes más de uno). Para hacer esto, también habrá un sistema de gestión de coches que permitirá añadir, borrar y modificar coches. El coche solo tiene tres datos; un nombre para reconocerlo, y un icono asociado para que sea más fácil encontrarlo en las listas y un color para el icono.
 
-El funcionamiento básico de la aplicación es ir guardando y manteniendo estas dos listas de repostajes y mantenimientos. El resto del funcionamiento es simplemente hacer cálculos con ellas y mostrar distinta información.
+El funcionamiento básico de la aplicación es ir guardando y manteniendo las dos listas de repostajes y mantenimientos. El resto del funcionamiento es simplemente hacer cálculos con ellas y mostrar distinta información.
+
 Para no perder las listas, hay una parte de la aplicación que se encarga de guardar esos datos en una BD.
 
-Cada vez que haces un repostaje se guardan los datos referentes a ese repostaje en la aplicación. Lo mismo se hace cuando realizas un mantenimiento en el coche.Además, se pueden modificar, por si hubiera habido algún error al meterlos. También se pueden borrar, aunque en la práctica este caso se dará en raras ocasiones.
+Cada vez que haces un repostaje se guardan los datos referentes a ese repostaje en la aplicación. Lo mismo se hace cuando realizas un mantenimiento en el coche. Además, se pueden modificar, por si hubiera habido algún error al meterlos. También se pueden borrar, aunque en la práctica este caso se dará en raras ocasiones.
 
-Resumiendo: toda la aplicación se basa en tres listas de datos (Repostajes, Mantenimientos y Coches), aunque las dos primeras son las importantes.
+Resumiendo: toda la aplicación se basa en tres listas de datos (Coches, Repostajes y Mantenimientos), aunque las dos últimas son las importantes.
 
 **Descripción de la Base de Datos**
 
