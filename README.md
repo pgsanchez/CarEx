@@ -5,23 +5,40 @@ GastaCar es una aplicación pensada para apuntar los gastos que tienes en tu coc
 
 GastaCar te dará información sobre el gasto anual en combustible, reparaciones, ITV, Seguro e Impuestos. Ten en cuenta una cosa; esta, como el resto de aplicaciones parecidas, solo te empezará a resultar útil a medio/largo plazo, cuando los datos que hayas ido metiendo en la aplicación sean suficientes como para que la información que te da sea un reflejo real de tus gastos en el coche.
 
-En el market podrás encontrar varias aplicaciones como esta. No creo que esta sea la mejor ni la más completa. Entonces, ¿en qué se diferencia del resto? Pues simplemente en que la he desarrollado para cubrir mis necesidades, ya que el resto siempre tenían algo que no me terminaba de convencer. Esta aplicación es mas simple y mas sencilla que el resto; algunas tienen tanta información que abruma y, sinceramente, hay mucha información que yo no utilizo. Además esta aplicación es completamente gratuita y no tiene publicidad. Como digo la he desarrollado para mí, y no necesito sacar dinero con ella. Con que me sea útil es suficiente.
+En el market podrás encontrar varias aplicaciones como esta. No creo que esta sea la mejor ni la más completa. Entonces, ¿en qué se diferencia del resto? Pues simplemente en que la he desarrollado para cubrir mis necesidades, ya que el resto siempre tenían algo que no me terminaba de convencer. Esta aplicación es mas simple y mas sencilla que el resto; algunas tienen tanta información que abruma y, sinceramente, hay mucha información que yo no utilizo. Además esta aplicación es completamente gratuita, no tiene publicidad ni accede a tus fotos o datos ni a los de tus contactos. Como digo la he desarrollado para mí, y no necesito sacar dinero con ella. Con que me sea útil es suficiente. Y si a ti también te resulta útil, pues mejor.
+
+Para más información puedes leer el blog de mi web: [pgsanchez.net](pgsanchez.net)
 
 Capturas de pantalla
 ====================
 
-![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/ListaRepostajesReducida.png)
+![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/PantallaIncial.png)
 
 <br/>
 
-![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/ListaMantenimientosReducida.png)
+![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/Repostaje.png)
+
+<br/>
+
+![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/Mantenimiento.png)
+
+<br/>
+
+![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/Informes.png)
+
+<br/>
+
+![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/Graficas.png)
 
 <br/>
 
 VERSIONES
 ---------
 
-3/9/2018 Primera versión Beta. Beta 0.1 Tiene lo básico para ir metiendo datos; repostajes y visitas al taller. 
+3/9/2018 Primera versión Beta. Beta 0.1 Tiene lo básico para ir metiendo datos; repostajes y visitas al taller.
+
+**12/10/2019 Primera versión FINAL.  GastaCar 1.0**
+
 
 DESARROLLO (para programadores)
 -------------------------------
@@ -48,31 +65,6 @@ Cada vez que haces un repostaje se guardan los datos referentes a ese repostaje 
 
 Resumiendo: toda la aplicación se basa en tres listas de datos (Coches, Repostajes y Mantenimientos), aunque las dos últimas son las importantes.
 
-**Descripción de la Base de Datos**
 
-Habrá tres tablas en la BD; una para repostajes, otra para mantenimientos, y otra para los coches.
-
-Habrá una serie de clases que se encargan del mantenimiento de esos datos en la BD. Estas clases tienen unas funciones, que se pueden llamar desde la clase principal de la aplicación, y que sirven para realizar las funciones básicas CRUD (Añadir, Modificar, Borrar y Obtener datos).
-
-Cuando arranca, la aplicación lee las tablas de la BD y con esos datos carga las listas de repostajes, mantenimientos y coches.
-
-La pantalla inicial muestra en la ventana la lista de repostajes (por ser mas frecuentes que las visitas al taller), pero será un TabView, y en la segunda pestaña estarán los mantenimientos, así que será fácil pasar de una lista a la otra.
-
-Esta lista de repostajes estará ordenada por fecha, apareciendo los repostajes más nuevos en la parte superior (independientemente del coche que sea). Cada elemento muestra información básica del repostaje; coche, km totales y parciales, importe, lugar donde se repostó…
-
-Esta ventana tiene un botón para añadir un nuevo repostaje. Este botón lleva a una nueva ventana para rellenar los datos relativos a un nuevo repostaje, y da la opción de guardarlos (en este caso se guardarían en la BD y se mostrarían en la lista) o de cancelar, en cuyo caso se vuelve atrás sin guardar nada.
-
-Además, tocando en un elemento de esta lista se va también a su página de detalles, en la que se da la opción de modificar los datos y guardarlos en la BD.
-
-El funcionamiento de la lista de mantenimientos es igual al de la lista de repostajes.
-
-*Nota importante para programadores*
-
-La forma de proceder al **añadir**, **modificar**, o **borrar** un elemento es: 
-1. Al dar al botón de guardar, se hace el cambio en la BD
-2. Se borra la lista
-3. Se lee de nuevo la lista de la BD y se muestra
-
-Una vez se tiene esto, sacar gráficas, resúmenes o informes de gastos es solo cuestión de echarle imaginación en lo que se quiera/pueda obtener con esos datos.
 
 *P.D.Esta documentación irá creciendo a medida que lo haga el proyecto.*
