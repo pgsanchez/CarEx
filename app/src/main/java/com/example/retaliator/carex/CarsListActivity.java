@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -79,12 +80,15 @@ public class CarsListActivity extends AppCompatActivity {
 
                 objCoche = (Coche) data.getExtras().getSerializable("parametro");
                 CarExHelper baseDatos = new CarExHelper(getApplicationContext());
-                TablaCochesDB tablaCochesDB = new TablaCochesDB(baseDatos);
-                tablaCochesDB.insertarCocheDB(objCoche);
-                // Re-leemos la BD y actualizamos la lista de coches
-                lista = tablaCochesDB.leerCochesBD();
-                cocheAdapter = new CocheAdapter(this, lista);
-                cochesListView.setAdapter(cocheAdapter);
+                // Solo se da de alta en la BD si comprobamos que NO existe otro coche con ese nombre
+                if (!existeCoche(objCoche.getNombre())) {
+                    TablaCochesDB tablaCochesDB = new TablaCochesDB(baseDatos);
+                    tablaCochesDB.insertarCocheDB(objCoche);
+                    // Re-leemos la BD y actualizamos la lista de coches
+                    lista = tablaCochesDB.leerCochesBD();
+                    cocheAdapter = new CocheAdapter(this, lista);
+                    cochesListView.setAdapter(cocheAdapter);
+                }
             }
             else if (resultCode == RESULT_CANCELED) {
                 // Se ha cancelado; no se hace nada.
@@ -96,7 +100,20 @@ public class CarsListActivity extends AppCompatActivity {
                 objCoche = (Coche)data.getExtras().getSerializable("cocheModificado");
                 CarExHelper baseDatos = new CarExHelper(getApplicationContext());
                 TablaCochesDB tablaCochesDB = new TablaCochesDB(baseDatos);
-                tablaCochesDB.actualizarCocheDB(objCoche, cocheSeleccionado);
+                // Se comprueba si vamos a modificar un coche o a borrarlo
+                if ((objCoche.getColor() == 123456789) && (objCoche.getIcono() == 987654321))
+                {
+                    // Se borra el objeto de la BD, siempre y cuando no tenga algún gasto asociado
+                    if (!(MainActivity.getInstance()).cocheConGastosAsociados(objCoche.getId_coche()))
+                        tablaCochesDB.borrarCocheDB(objCoche);
+                    else {
+                        Toast.makeText(getApplicationContext(), "El coche tiene algún gasto. No se puede borrar", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    // Se modifica el objeto en la BD
+                    tablaCochesDB.actualizarCocheDB(objCoche, cocheSeleccionado);
+                }
                 // Re-leemos la BD y actualizamos la lista de coches
                 lista = tablaCochesDB.leerCochesBD();
                 cocheAdapter = new CocheAdapter(this, lista);
@@ -118,6 +135,15 @@ public class CarsListActivity extends AppCompatActivity {
         intent = new Intent(this, DetalleCoche.class);
         intent.putExtra("cocheEditable",cocheSeleccionado);
         startActivityForResult(intent, EDITAR_COCHE);
+    }
+
+    public boolean existeCoche(String nombreCoche) {
+        for(int x=0;x<lista.size();x++) {
+            if (nombreCoche.equals(((Coche)lista.get(x)).getNombre()))
+                    return true;
+        }
+
+        return false;
     }
 
 }

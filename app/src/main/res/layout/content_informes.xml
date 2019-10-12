@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_car_hatchback"
         android:layout_toEndOf="@+id/carSpinner"
+        android:layout_marginTop="6dp"
         android:id="@+id/iconCar" />
 
     <TextView
@@ -70,6 +71,7 @@
                 android:stretchColumns="2"
                 android:padding="10dp"
                 android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
                 android:text="Gastos" />
 
             <TextView
@@ -81,12 +83,13 @@
                 android:stretchColumns="2"
                 android:padding="10dp"
                 android:textSize="16sp"
-                android:text="Coche 1"/>
+                android:textColor="@color/colorPrimary"
+                android:text="Importe"/>
         </TableRow>
 
         <View
             android:layout_height="2dip"
-            android:background="#FF909090" />
+            android:background="@color/colorPrimary" />
 
         <TableRow
             android:id="@+id/gasolina"
@@ -215,7 +218,7 @@
 
         <View
             android:layout_height="2dip"
-            android:background="#FF909090" />
+            android:background="@color/colorPrimary" />
 
         <TableRow
             android:id="@+id/total"
@@ -231,6 +234,7 @@
                 android:textStyle="bold"
                 android:padding="10dp"
                 android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
                 android:text="TOTAL" />
 
             <TextView
@@ -241,6 +245,7 @@
                 android:textStyle="bold"
                 android:padding="10dp"
                 android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
                 android:text="175,25€"/>
 
         </TableRow>

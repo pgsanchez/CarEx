@@ -38,7 +38,7 @@ public class NuevoCoche extends AppCompatActivity {
         iconoBlue.setBackgroundColor(Color.TRANSPARENT);
         iconoBlue.setColorFilter(Color.BLUE);
 
-        ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.iconColorVerde);
         imageButton.setBackgroundColor(Color.TRANSPARENT);
         imageButton.setColorFilter(Color.GREEN);
 
@@ -60,7 +60,7 @@ public class NuevoCoche extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_guardar:
                 // Acciones a realizar cuando se le da a guardar
-
+                onBtnGuardarCoche(null);
                 return true;
 
             case android.R.id.home:

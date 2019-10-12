@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -21,10 +23,12 @@ public class DetalleCoche extends AppCompatActivity {
     Coche dlgCoche = new Coche();
     ImageView iconoCoche;
 
+    boolean modoEditar = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_coche);
+        setContentView(R.layout.activity_detalle_coche);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -49,7 +53,7 @@ public class DetalleCoche extends AppCompatActivity {
         iconoBlue.setBackgroundColor(Color.TRANSPARENT);
         iconoBlue.setColorFilter(Color.BLUE);
 
-        ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.iconColorVerde);
         imageButton.setBackgroundColor(Color.TRANSPARENT);
         imageButton.setColorFilter(Color.GREEN);
 
@@ -57,21 +61,36 @@ public class DetalleCoche extends AppCompatActivity {
         iconoCoche.setImageResource(dlgCoche.getIcono());
         iconoCoche.setColorFilter(dlgCoche.getColor());
 
+        habilitarEdicion(false);
+
+        // Asociar el menú contextual de borrar
+        ImageView imagenPapelera = (ImageView) findViewById(R.id.imageTrash);
+        registerForContextMenu(imagenPapelera);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_repostaje_menu, menu);
+        //getMenuInflater().inflate(R.menu.activity_repostaje_menu, menu);
+        getMenuInflater().inflate(R.menu.activity_editar_repostaje_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_guardar);
+        item.setVisible(modoEditar);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_editar:
+                // Habilitar edición.
+                modoEditar = true;
+                this.invalidateOptionsMenu();
+                habilitarEdicion(true);
+                return true;
             case R.id.menu_guardar:
                 // Acciones a realizar cuando se le da a guardar
-
+                onBtnGuardarCoche(null);
                 return true;
 
             case android.R.id.home:
@@ -85,6 +104,26 @@ public class DetalleCoche extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_contexto_borrar, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mCancel:
+                break;
+            case R.id.mDelete:
+                onBtnBorrar(null);
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
     public void onBtnFurgoClick(View view)
@@ -142,5 +181,69 @@ public class DetalleCoche extends AppCompatActivity {
         data.putExtra("cocheModificado",dlgCoche);
         setResult(RESULT_OK, data);
         finish();
+    }
+
+    public void onBtnBorrar(View view)
+    {
+        dlgCoche.setColor(123456789);
+        dlgCoche.setIcono(987654321);
+
+        // Cerrar la Activity y devolver el objeto Repostaje con los datos
+        Intent data = new Intent();
+        data.putExtra("cocheModificado",dlgCoche);
+        setResult(RESULT_OK, data);
+        finish();
+    }
+
+    public void habilitarEdicion(boolean habilitar){
+        TextView nombre  = (TextView) findViewById(R.id.edtNombre);
+
+
+        ImageView imageViewCoche = (ImageView) findViewById(R.id.imageViewCoche);
+        ImageView btnIconFurgo = (ImageView) findViewById(R.id.iconFurgo);
+        ImageView btnIconUtilitario = (ImageView) findViewById(R.id.iconUtilitario);
+        ImageView btnIconDeportivo = (ImageView) findViewById(R.id.iconDeportivo);
+
+        ImageView btnColorNegro = (ImageView) findViewById(R.id.iconColorNegro);
+        ImageView btnColorRojo = (ImageView) findViewById(R.id.iconColorRojo);
+        ImageView btnColorAzul = (ImageView) findViewById(R.id.iconColorAzul);
+        ImageView btnColorVerde = (ImageView) findViewById(R.id.iconColorVerde);
+
+
+        ImageView btnImagenBorrar = (ImageView) findViewById(R.id.imageTrash);
+
+        nombre.setEnabled(habilitar);
+        imageViewCoche.setEnabled(habilitar);
+        btnIconFurgo.setEnabled(habilitar);
+        btnIconUtilitario.setEnabled(habilitar);
+        btnIconDeportivo.setEnabled(habilitar);
+
+        btnColorNegro.setEnabled(habilitar);
+        btnColorRojo.setEnabled(habilitar);
+        btnColorAzul.setEnabled(habilitar);
+        btnColorVerde.setEnabled(habilitar);
+
+        btnImagenBorrar.setEnabled(habilitar);
+
+        if (habilitar == true) {
+            imageViewCoche.setColorFilter(dlgCoche.getColor());
+
+            btnColorNegro.setColorFilter(Color.BLACK);
+            btnColorRojo.setColorFilter(Color.RED);
+            btnColorAzul.setColorFilter(Color.BLUE);
+            btnColorVerde.setColorFilter(Color.GREEN);
+
+            btnImagenBorrar.setColorFilter(Color.RED);
+        }
+        else {
+            imageViewCoche.setColorFilter(Color.GRAY);
+
+            btnColorNegro.setColorFilter(Color.GRAY);
+            btnColorRojo.setColorFilter(Color.GRAY);
+            btnColorAzul.setColorFilter(Color.GRAY);
+            btnColorVerde.setColorFilter(Color.GRAY);
+
+            btnImagenBorrar.setColorFilter(Color.GRAY);
+        }
     }
 }

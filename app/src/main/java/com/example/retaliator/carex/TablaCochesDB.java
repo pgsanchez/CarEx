@@ -83,10 +83,24 @@ public class TablaCochesDB {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
         String whereClause = CarExContract.CochesEntry.NOMBRE + "='" + oldCoche.getNombre() + "'";
-        // Funcion de insertar.
-        ContentValues values = new ContentValues();
-        values = toContentValues(newCoche);
+        // Funcion de modificar.
         if (db.update(CarExContract.CochesEntry.TABLE_NAME, toContentValues(newCoche),whereClause, null) == -1) {
+            // Mostrar mensaje de error
+            return -1;
+        }
+
+        return 0;
+    }
+
+    int borrarCocheDB(Coche objCoche)
+    {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        String whereClause = CarExContract.CochesEntry.NOMBRE + "='" + objCoche.getNombre() + "' and "
+                + CarExContract.CochesEntry._ID+ "='" + objCoche.getId_coche() + "'";
+
+        if (db.delete(CarExContract.CochesEntry.TABLE_NAME, whereClause, null) == -1){
             // Mostrar mensaje de error
             return -1;
         }

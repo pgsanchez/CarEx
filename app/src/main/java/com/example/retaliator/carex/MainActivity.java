@@ -480,4 +480,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public boolean cocheConGastosAsociados(int idCoche)
+    {
+        // Se recorre la lista de repostajes mirando si hay algún gasto asociado a ese coche
+        for (int x = 0; x < listaRepostajes.size();x++) {
+            if (idCoche == (listaRepostajes.get(x)).getCoche())
+                return true;
+        }
+
+        // Se recorre la lista de mantenimientos mirando si hay algún gasto asociado a ese coche
+        for (int x = 0; x < listaMantenimientos.size();x++) {
+            if (idCoche == (listaMantenimientos.get(x)).getCoche())
+                return true;
+        }
+
+        return false;
+    }
+
+    public void exportDB(){
+        /*String nombreBaseDatos = "CarExDB.db";
+        String rutaFisica = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nombreBaseDatos);
+        if (System.IO.File.Exists(@"/mnt/sdcard/BaseDeDatos.db3"))
+        {
+            System.IO.File.Delete(rutaFisica);
+            System.IO.File.Copy(@"/mnt/sdcard/BaseDeDatos.db3", rutaFisica);
+            System.IO.File.Delete(@"/mnt/sdcard/BaseDeDatos.db3");
+        }*/
+    }
 }
