@@ -7,7 +7,7 @@ GastaCar te dará información sobre el gasto anual en combustible, reparaciones
 
 En el market podrás encontrar varias aplicaciones como esta. No creo que esta sea la mejor ni la más completa. Entonces, ¿en qué se diferencia del resto? Pues simplemente en que la he desarrollado para cubrir mis necesidades, ya que el resto siempre tenían algo que no me terminaba de convencer. Esta aplicación es mas simple y mas sencilla que el resto; algunas tienen tanta información que abruma y, sinceramente, hay mucha información que yo no utilizo. Además esta aplicación es completamente gratuita, no tiene publicidad ni accede a tus fotos o datos ni a los de tus contactos. Como digo la he desarrollado para mí, y no necesito sacar dinero con ella. Con que me sea útil es suficiente. Y si a ti también te resulta útil, pues mejor.
 
-Para más información puedes leer el blog de mi web: [pgsanchez.net](pgsanchez.net)
+Para más información puedes leer el blog de mi web: [pgsanchez.net](https://pgsanchez.net)
 
 Capturas de pantalla
 ====================
