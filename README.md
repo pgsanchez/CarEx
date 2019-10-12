@@ -12,7 +12,7 @@ Para más información puedes leer el blog de mi web: [pgsanchez.net](pgsanchez.
 Capturas de pantalla
 ====================
 
-![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/PantallaIncial.png)
+![alt tag](https://github.com/pgsanchez/CarEx/blob/master/design/PantallaInicial.png)
 
 <br/>
 
