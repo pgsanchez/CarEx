@@ -112,16 +112,6 @@
         android:layout_alignEnd="@+id/iconColorNegro"
         android:onClick="onBtnGreenClick" />
 
-    <Button
-        android:id="@+id/guardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/imageViewCoche"
-        android:layout_marginBottom="30dp"
-        android:onClick="onBtnGuardarCoche"
-        android:text="Guardar" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

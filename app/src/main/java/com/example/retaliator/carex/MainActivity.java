@@ -175,29 +175,30 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("listaCoches", listaCoches);
                 startActivity(intent);
                 break;
-            case R.id.action_export:
-                // Abrir el Activity de lista de coches
-                /*try {
-                    exportDB();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
+            /*case R.id.action_export:
                 try {
                     SqliteExporter.export(baseDatos.getReadableDatabase());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                break;
-
-
+                break;*/
             case R.id.reportIcon:
-                abrirTablaGastos(null);
+                if (listaCoches.isEmpty()){
+                    Toast.makeText(this, R.string.Advertencia1, Toast.LENGTH_SHORT).show();
+                } else
+                    abrirTablaGastos(null);
                 break;
             case R.id.chartIcon:
-                abrirGraficos(null);
+                if (listaCoches.isEmpty()){
+                    Toast.makeText(this, R.string.Advertencia1, Toast.LENGTH_SHORT).show();
+                } else
+                    abrirGraficos(null);
                 break;
             case R.id.searchIcon:
-                abrirVentanaDeBusqueda(null);
+                if (listaCoches.isEmpty()){
+                    Toast.makeText(this, R.string.Advertencia1, Toast.LENGTH_SHORT).show();
+                } else
+                    abrirVentanaDeBusqueda(null);
                 //abrirTablaGastos2(null);
                 break;
             default:
@@ -239,6 +240,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void nuevoGasto(int tipo_gasto){
         Intent intent;
+
+        if (listaCoches.isEmpty()){
+            Toast.makeText(this, R.string.Advertencia1, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         intent = new Intent(this, NuevoGasto.class);
         intent.putExtra("listaCoches", listaCoches);
