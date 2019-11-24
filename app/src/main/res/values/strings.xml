@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GastaCar</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
 
     <string name="texto_tab1">Repostajes</string>
     <string name="texto_tab2">Mantenimientos</string>
@@ -15,6 +15,7 @@
     <string name="Advertencia1">Primero debe crear un coche</string>
     <string name="title_activity_informes">Informes</string>
     <string name="title_activity_graficos">Gráficos</string>
+    <string name="title_activity_nuevo_coche">Coches</string>
 
     <string name="menu_ITV">ITV</string>
     <string name="menu_Seguro">Seguro</string>
@@ -24,6 +25,20 @@
     <string name="BD_ITV">ITV</string>
     <string name="BD_Seguro">Seguro</string>
     <string name="BD_IVTM">Imp. Circulacion</string>
+
+    <string name="skip">Saltar</string>
+    <string name="done">Listo</string>
+    <string name="next">Siguiente</string>
+    <string name="paso1">Paso 1</string>
+    <string name="paso2">Paso 2</string>
+    <string name="paso3">Paso 3</string>
+    <string name="paso4">Paso 4</string>
+    <string name="textoPaso1">Crea un coche en Ajustes</string>
+    <string name="textoPaso1b">(Solo 4 pasos)</string>
+    <string name="textoPaso2">Cuando eches gasolina, apúntalo aquí</string>
+    <string name="textoPaso3">Cuando lleves el coche al taller, apúntalo aquí</string>
+    <string name="textoPaso4">Consulta los informes</string>
+    <string name="textoPaso3b">Pulsación larga para ITV, impuestos y seguro</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
