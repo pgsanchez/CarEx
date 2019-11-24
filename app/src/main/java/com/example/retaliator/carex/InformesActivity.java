@@ -49,10 +49,6 @@ public class InformesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informes);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getIntent() != null) {
             listaCoches = (ArrayList<Coche>) getIntent().getExtras().getSerializable("listaCoches");
@@ -99,7 +95,9 @@ public class InformesActivity extends AppCompatActivity {
         // Se pone el icono correspondiente
         final ImageView iconCar = (ImageView) findViewById((R.id.iconCar));
         // Seleccionamos el primer coche de la lista:
-        selectedCar = listaCoches.get(0);
+        if (listaCoches.size() > 0)
+            selectedCar = listaCoches.get(0);
+
         iconCar.setImageResource(selectedCar.getIcono());
         iconCar.setColorFilter(selectedCar.getColor());
 

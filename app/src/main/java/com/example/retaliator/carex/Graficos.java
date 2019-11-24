@@ -61,15 +61,10 @@ public class Graficos extends AppCompatActivity {
         ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, list);
         spinner.setAdapter(dataAdapter);
 
-        //dibujaGraficaDeBarras();
-        //dibujaGraficaDeBarrasXaño(annoActual.get(Calendar.YEAR));
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //String texto = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
                 Integer nuevoAnno = (int) spinner.getItemAtPosition(spinner.getSelectedItemPosition());
-                //Log.i("Nuevo Año = ", nuevoAnno.toString());
                 dibujaGraficaDeBarrasXanno(nuevoAnno);
             }
 
@@ -84,63 +79,9 @@ public class Graficos extends AppCompatActivity {
 
     }
 
-    private void dibujaGraficaDeBarras(){
-        BarChart barchar1 = (BarChart) findViewById(R.id.barchart1);
-        List<BarEntry> entries = new ArrayList<BarEntry>();
-
-        Calendar mesActual = Calendar.getInstance();
-        //Log.i("MesActual = ", mesActual.getTime().toString() );
-
-        float valorX = 12f;
-        float valorY = 0f;
-
-        Iterator<Repostaje> it = listaRepostajes.iterator();
-        while(it.hasNext() && valorX > 0 ){
-            Repostaje rep = it.next();
-            Calendar fecha = Calendar.getInstance();
-            fecha.setTime(rep.getFecha());
-
-            //Log.i("MesElemento = ", fecha.getTime().toString() );
-            //Log.i("MesActual = ", mesActual.getTime().toString() );
-            while (fecha.get(Calendar.MONTH) != mesActual.get(Calendar.MONTH))
-            {
-                entries.add(new BarEntry(valorX, valorY));
-                valorX -= 1.f;
-                valorY = 0;
-                mesActual.set(Calendar.MONTH, mesActual.get(Calendar.MONTH)-1);
-            }
-            valorY += rep.getImporte();
-
-        }
-        entries.add(new BarEntry(valorX, valorY));
-
-        XAxis xAxis = barchar1.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(10f);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setDrawGridLines(false);
-        xAxis.setCenterAxisLabels(true);
-
-        YAxis leftAxis = barchar1.getAxisLeft();
-        YAxis rightAxis = barchar1.getAxisRight();
-        rightAxis.setEnabled(false);
-
-        BarDataSet set = new BarDataSet(entries, "BarDataSet");
-
-        BarData data = new BarData(set);
-        data.setBarWidth(0.9f); // set custom bar width
-        barchar1.setData(data);
-        barchar1.setFitBars(true); // make the x-axis fit exactly all bars
-        barchar1.invalidate(); // refresh*/
-    }
-
     private void dibujaGraficaDeBarrasXanno(int anno){
         BarChart barchar1 = (BarChart) findViewById(R.id.barchart1);
         List<BarEntry> entries = new ArrayList<BarEntry>();
-
-        //Calendar annoActual = Calendar.getInstance();
-        //annoActual.set
-        //Log.i("Año Actual = ", annoActual.getTime().toString() );
 
         float valorY = 0f;
         int mesEscalaX = 11; // Diciembre
@@ -150,7 +91,7 @@ public class Graficos extends AppCompatActivity {
             Repostaje rep = it.next();
             Calendar fechaRepostaje = Calendar.getInstance();
             fechaRepostaje.setTime(rep.getFecha());
-            //if (fechaRepostaje.get((Calendar.YEAR)) != annoActual.get(Calendar.YEAR)){
+
             if (fechaRepostaje.get((Calendar.YEAR)) > anno){
                 // No se hace nada. Hay que coger el siguiente elemento
             }
@@ -159,8 +100,6 @@ public class Graficos extends AppCompatActivity {
                 break;
             }
             else{
-                //Log.i("MesElemento = ", fechaRepostaje.getTime().toString() );
-                //Log.i("MesActual = ", annoActual.getTime().toString() );
                 while (fechaRepostaje.get(Calendar.MONTH) != mesEscalaX)
                 {
                     // No hay repostajes en el mes mesEScalaX. Pasamos al mes anterior.
@@ -218,10 +157,15 @@ public class Graficos extends AppCompatActivity {
         float valorY = 0f;
         int annoEscalaX = annoActual.get(Calendar.YEAR); // Diciembre
         int annoFinal = obtenerAnnoUltimoElementoListaMantenimientos();
+        // Si annoFinal == 0, quiere decir que la lista está vacía y, por lo tanto, no hay datos
+        // que dibujar. Dibujaremos la gráfica vacía y le pondremos una escala de 1 año atrás en
+        // el eje X
+        if (annoFinal == 0)
+            annoFinal = annoEscalaX - 1;
+
         annos = new String[annoEscalaX - annoFinal + 1];
         for (int i = annoActual.get(Calendar.YEAR), j =0 ; i >= annoFinal; i--, j++) {
             annos[j] = String.valueOf(i);
-            //Log.d("annos.length = ", String.valueOf(annos.length));
         }
 
         Iterator<Mantenimiento> it = listaMantenimientos.iterator();
@@ -234,14 +178,12 @@ public class Graficos extends AppCompatActivity {
             while (fechaMantenimiento.get(Calendar.YEAR) != annoEscalaX)
             {
                 entries.add(new BarEntry(annoEscalaX, valorY));
-                //Log.d("entries = ", String.valueOf(annoEscalaX));
                 annoEscalaX --;
                 valorY = 0;
             }
             valorY += mant.getImporte();
         }
         entries.add(new BarEntry(annoEscalaX, valorY));
-        //Log.d("entries fin = ", String.valueOf(annoEscalaX));
 
         XAxis xAxis = barchart2.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -262,13 +204,9 @@ public class Graficos extends AppCompatActivity {
         BarDataSet set = new BarDataSet(entries, "Importe del taller");
 
         BarData data = new BarData(set);
-        //data.setBarWidth(0.9f); // set custom bar width
         barchart2.setData(data);
         barchart2.setFitBars(true); // make the x-axis fit exactly all bars
         barchart2.setDescription(null);
-        //barchart2.setDrawBorders(false);
-        //barchart2.setNoDataText("");
-        //barchart2.invalidate(); // refresh*/
     }
 
     private void dibujaGraficaDeLineas(){
@@ -276,62 +214,36 @@ public class Graficos extends AppCompatActivity {
 
         List<Entry> entries = new ArrayList<Entry>();
 
-        int annoFinal = obtenerAnnoUltimoElementoListaRepostajes();
-
         Calendar annoActual = Calendar.getInstance();
         int annoEscalaX = annoActual.get(Calendar.YEAR); // Diciembre
+
+        int annoFinal = obtenerAnnoUltimoElementoListaRepostajes();
+        // Si la función anterior devuelve un 0 quiere decir que la lista de repostajes está vacía.
+        // Si continuamos, esta función fallará y hará caer la aplicación. Paramos aquí la función.
+        if (annoFinal == 0)
+            return;
+
+
         annos2 = new String[annoEscalaX - annoFinal + 1];
         for (int i = annoActual.get(Calendar.YEAR), j =0 ; i >= annoFinal; i--, j++) {
             annos2[j] = String.valueOf(i);
-            //Log.d("annos2.length = ", String.valueOf(annos2.length));
         }
 
-        /*Repostaje primerRepostaje = listaRepostajes.get(0);
-        long valoractual = primerRepostaje.getFecha().getTime();
-        long valoranterior = valoractual;
-        valoranterior = valoranterior / (1000 * 60 * 60 * 24);*/
+        if (listaRepostajes.size() != 0) {
+            ListIterator it = listaRepostajes.listIterator(listaRepostajes.size());
 
-        //Iterator<Repostaje> it = listaRepostajes.iterator(listaRepostajes.size());
-        ListIterator it = listaRepostajes.listIterator(listaRepostajes.size());
-
-        while (it.hasPrevious()){
-            Repostaje rep = (Repostaje) it.previous();
-            Calendar fechaRep = Calendar.getInstance();
-            fechaRep.setTime(rep.getFecha());
-            int dias = obtenerDiaDesdeAnno(annoFinal, fechaRep);
-            //Log.d("Dias = ", String.valueOf(dias));
-            //Log.d("Precio = ", String.valueOf(rep.getPrecio()));
-            entries.add(new Entry(dias, rep.getPrecio()));
+            while (it.hasPrevious()) {
+                Repostaje rep = (Repostaje) it.previous();
+                Calendar fechaRep = Calendar.getInstance();
+                fechaRep.setTime(rep.getFecha());
+                int dias = obtenerDiaDesdeAnno(annoFinal, fechaRep);
+                entries.add(new Entry(dias, rep.getPrecio()));
+            }
         }
-        /*while(it.hasNext()){
-            Repostaje rep = it.next();
-            /*valoractual = rep.getFecha().getTime();
-            valoractual = valoractual / (1000 * 60 * 60 * 24);
-            entries.add(new Entry(valoractual - valoranterior, rep.getPrecio()));
-            long x = valoractual - valoranterior;
-            valoranterior = valoractual;* /
-
-            Calendar fechaRep = Calendar.getInstance();
-            fechaRep.setTime(rep.getFecha());
-            int dias = obtenerDiaDesdeAnno(annoFinal, fechaRep);
-            Log.d("Dias = ", String.valueOf(dias));
-            Log.d("Precio = ", String.valueOf(rep.getPrecio()));
-            entries.add(new Entry(dias, rep.getPrecio()));
-        }*/
-
-        /*entries.add(new Entry(280, 1.019f));
-        entries.add(new Entry(547, 1.059f));
-        entries.add(new Entry(549, 1.059f));
-        entries.add(new Entry(561, 1.059f));
-        entries.add(new Entry(571, 1.059f));
-        entries.add(new Entry(575, 1.229f));*/
-
-
-        //Log.d("LLega hasta aquí", "");
         XAxis xAxis = lineChart1.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(10f);
-        //xAxis.setTextColor(Color.RED);
+
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
         xAxis.setCenterAxisLabels(false);
@@ -340,7 +252,7 @@ public class Graficos extends AppCompatActivity {
 
         YAxis leftAxis = lineChart1.getAxisLeft();
         leftAxis.setDrawZeroLine(false);
-        //leftAxis.setAxisMinimum(0f); // start at zero
+
         YAxis rightAxis = lineChart1.getAxisRight();
         rightAxis.setEnabled(false);
 
@@ -349,9 +261,6 @@ public class Graficos extends AppCompatActivity {
         LineData data = new LineData(dataSet);
         lineChart1.setData(data);
         lineChart1.setDescription(null);
-        //lineChart1.setDrawGridBackground(true);
-        //lineChart1.setDrawBorders(true);
-        //lineChart1.invalidate();
     }
 
     private String obtenerNombreDelMes(int numeroMes){
@@ -360,17 +269,23 @@ public class Graficos extends AppCompatActivity {
     }
 
     private int obtenerAnnoUltimoElementoListaMantenimientos(){
-        Mantenimiento mant = listaMantenimientos.get(listaMantenimientos.size()-1);
-        Calendar fecha = Calendar.getInstance();
-        fecha.setTime(mant.getFecha());
-        return fecha.get(Calendar.YEAR);
+        if (listaMantenimientos.size()>0) {
+            Mantenimiento mant = listaMantenimientos.get(listaMantenimientos.size() - 1);
+            Calendar fecha = Calendar.getInstance();
+            fecha.setTime(mant.getFecha());
+            return fecha.get(Calendar.YEAR);
+        }
+        return 0;
     }
 
     private int obtenerAnnoUltimoElementoListaRepostajes(){
-        Repostaje rep = listaRepostajes.get(listaRepostajes.size()-1);
-        Calendar fecha = Calendar.getInstance();
-        fecha.setTime(rep.getFecha());
-        return fecha.get(Calendar.YEAR);
+        if (listaRepostajes.size()>0) {
+            Repostaje rep = listaRepostajes.get(listaRepostajes.size() - 1);
+            Calendar fecha = Calendar.getInstance();
+            fecha.setTime(rep.getFecha());
+            return fecha.get(Calendar.YEAR);
+        }
+        return 0;
     }
 
     //Función para obtener el número de días de una fecha desde el 1/1 de un año dado.
