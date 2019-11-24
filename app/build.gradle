@@ -30,4 +30,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
+    compile 'com.github.vajro:MaterialDesignLibrary:1.6'
+    compile 'com.ogaclejapan.smarttablayout:library:1.2.1@aar'
 }

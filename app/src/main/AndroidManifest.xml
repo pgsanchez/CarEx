@@ -58,8 +58,7 @@
         <activity
             android:name=".InformesActivity"
             android:label="@string/title_activity_informes"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".Graficos"
             android:label="@string/title_activity_graficos"
@@ -73,6 +72,7 @@
             android:name=".DetalleGasto"
             android:label=""
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".OnboardingActivity"></activity>
     </application>
 
 </manifest>

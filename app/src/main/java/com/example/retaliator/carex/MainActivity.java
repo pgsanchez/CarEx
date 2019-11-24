@@ -3,6 +3,7 @@ package com.example.retaliator.carex;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -74,6 +75,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Get the shared preferences
+        SharedPreferences preferences =  getSharedPreferences("my_preferences", MODE_PRIVATE);
+
+        // Check if onboarding_complete is false
+        if(!preferences.getBoolean("onboarding_complete",false)) {
+            // Start the onboarding Activity
+            Intent onboarding = new Intent(this, OnboardingActivity.class);
+            startActivity(onboarding);
+
+            // Close the main Activity
+            finish();
+            return;
+        }
+
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
