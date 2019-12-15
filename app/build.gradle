@@ -4,9 +4,9 @@ android {
     compileSdkVersion 24
     buildToolsVersion '27.0.3'
     defaultConfig {
-        applicationId "com.example.retaliator.carex"
+        applicationId 'com.pgsanchezt.retaliator.carex'
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -17,11 +17,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+
+        checkReleaseBuilds false
+
+    }
+    productFlavors {
+    }
 }
 
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -29,7 +36,7 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
+    compile 'com.opencsv:opencsv:4.1'
     compile 'com.github.vajro:MaterialDesignLibrary:1.6'
     compile 'com.ogaclejapan.smarttablayout:library:1.2.1@aar'
 }
