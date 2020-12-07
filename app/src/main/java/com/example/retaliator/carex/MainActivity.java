@@ -1,15 +1,21 @@
 package com.example.retaliator.carex;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,8 +30,11 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -193,13 +202,24 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("listaCoches", listaCoches);
                 startActivity(intent);
                 break;
-            /*case R.id.action_export:
-                try {
-                    SqliteExporter.export(baseDatos.getReadableDatabase());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;*/
+            case R.id.action_export:
+                exportDB();
+                break;
+            case R.id.action_import:
+                AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+                dialogo1.setTitle("Importante");
+                dialogo1.setMessage("Si importa una Base de Datos externa, se perderán los datos de la actual.");
+                dialogo1.setCancelable(false);
+                dialogo1.setPositiveButton("Importar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        importDB();
+                    }
+                });
+                dialogo1.setNegativeButton("Cancelar", null);
+                dialogo1.show();
+                break;
+
+
             case R.id.reportIcon:
                 if (listaCoches.isEmpty()){
                     Toast.makeText(this, R.string.Advertencia1, Toast.LENGTH_SHORT).show();
@@ -522,13 +542,98 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void exportDB(){
-        /*String nombreBaseDatos = "CarExDB.db";
-        String rutaFisica = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nombreBaseDatos);
-        if (System.IO.File.Exists(@"/mnt/sdcard/BaseDeDatos.db3"))
-        {
-            System.IO.File.Delete(rutaFisica);
-            System.IO.File.Copy(@"/mnt/sdcard/BaseDeDatos.db3", rutaFisica);
-            System.IO.File.Delete(@"/mnt/sdcard/BaseDeDatos.db3");
-        }*/
+        // Aquí va el código de exportar la BD al Drive
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            String state = Environment.getExternalStorageState();
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                Log.d("Test", "sdcard mounted and writable");
+            }
+            else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+                Log.d("Test", "sdcard mounted readonly");
+            }
+            else {
+                Log.d("Test", "sdcard state: " + state);
+            }
+
+            boolean permission = isStoragePermissionGranted();
+            if(permission) {
+                //DO YOUR TASK HERE
+                if (sd.canWrite()) {
+                    String currentDBPath = "//data//" + "com.pgsanchezt.retaliator.carex" + "//databases//" + "CarExDB.db";
+                    String backupDBPath = "CarExDB_bckp.db";
+                    File currentDB = new File(data, currentDBPath);
+                    File backupDB = new File(sd, backupDBPath);
+
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    Toast.makeText(getBaseContext(), backupDB.toString(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "No se puede escribir en SD Card", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "No hay permisos para escribir", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG) .show();
+        }
     }
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("permisos", "Permission is granted");
+                return true;
+            } else {
+                Log.v("permisos","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("permisos","Permission is granted");
+            return true;
+        }
+    }
+
+    // Botón de importar la BD
+    public void importDB() {
+        // Aquí todo el código de importar la BD desde el Drive
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            boolean permission = isStoragePermissionGranted();
+            if(permission) {
+                if (sd.canRead()) {
+                    String currentDBPath = "//data//" + "com.pgsanchezt.retaliator.carex" + "//databases//" + "CarExDB.db";
+                    String backupDBPath = "CarExDB_bckp.db";
+                    File backupDB = new File(sd, backupDBPath);
+                    File currentDB = new File(data, currentDBPath);
+
+                    FileChannel src = new FileInputStream(backupDB).getChannel();
+                    FileChannel dst = new FileOutputStream(currentDB).getChannel();
+
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                    Toast.makeText(getBaseContext(), backupDB.toString(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "No se puede leer de SD Card", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG) .show();
+        }
+    }
+
 }

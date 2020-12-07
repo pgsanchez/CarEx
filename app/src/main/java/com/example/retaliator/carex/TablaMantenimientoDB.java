@@ -83,21 +83,24 @@ public class TablaMantenimientoDB {
                 // --------------------------------------------------
                 // Calcula los Km parciales entre mantenimientos
                 // --------------------------------------------------
-                cocheEncontrado = false;
-                for (Mantenimiento rep: listaMantAnt) {
-                    if (rep.getCoche() == mant.getCoche()) {
-                        cocheEncontrado = true;
-                        mant.setKmParciales(mant.getKmTotales()-rep.getKmTotales());
-                        listaMantAnt.remove(rep);
-                        rep = mant;
-                        listaMantAnt.add(rep);
-                        break;
-                    }
-                }
+                if (mant.getTipo_gasto().equals("Mantenimiento")) {
 
-                if (!cocheEncontrado){
-                    mant.setKmParciales(0);
-                    listaMantAnt.add(mant);
+                    cocheEncontrado = false;
+                    for (Mantenimiento rep : listaMantAnt) {
+                        if (rep.getCoche() == mant.getCoche()) {
+                            cocheEncontrado = true;
+                            mant.setKmParciales(mant.getKmTotales() - rep.getKmTotales());
+                            listaMantAnt.remove(rep);
+                            rep = mant;
+                            listaMantAnt.add(rep);
+                            break;
+                        }
+                    }
+
+                    if (!cocheEncontrado) {
+                        mant.setKmParciales(0);
+                        listaMantAnt.add(mant);
+                    }
                 }
 
                 // --------------------------------------------------

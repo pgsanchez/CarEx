@@ -174,9 +174,8 @@
         android:layout_alignBaseline="@+id/tvDescripcion"
         android:layout_alignBottom="@+id/tvDescripcion"
         android:layout_alignEnd="@+id/edtFecha"
-        android:ems="10"
+        android:ems="8"
         android:gravity="end"
-        android:inputType="textMultiLine"
-        android:textSize="14sp" />
+        android:inputType="textMultiLine"/>
 
 </RelativeLayout>

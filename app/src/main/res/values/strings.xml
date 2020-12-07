@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">GastaCar</string>
     <string name="action_settings">Ajustes</string>
+    <string name="action_export">Exportar BD</string>
+    <string name="action_import">Importar BD</string>
 
     <string name="texto_tab1">Repostajes</string>
     <string name="texto_tab2">Mantenimientos</string>
